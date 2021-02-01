@@ -13,6 +13,10 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -79,7 +83,11 @@ public class AdminController {
      */
     @DELETE
     @Path("/deletecourse/{courseId}")
-    public Response deleteCourse(@PathParam("courseId") int courseId) {
+    public Response deleteCourse(
+            @DecimalMin(value = "101", message = "Course ID range starts from 101.")
+            @DecimalMax(value = "199", message = "Course ID range till 199 only.")
+            @NotNull(message = "CourseID cannot be null")
+            @PathParam("courseId") int courseId) {
         String result = adminOperation.dropCourseInCatalog(courseId);
         return Response.status(200).entity(result).build();
     }
@@ -96,7 +104,20 @@ public class AdminController {
      */
     @POST
     @Path("/addprofessor")
-    public Response addProfessor(@FormParam("professorId") int professorId, @FormParam("name") String name, @FormParam("gender") String gender, @FormParam("username") String username, @FormParam("password") String password) {
+    public Response addProfessor(
+            @DecimalMin(value = "201", message = "Course ID range starts from 201.")
+            @DecimalMax(value = "299", message = "Course ID range till 299 only.")
+            @NotNull(message = "ProfessorID cannot be null")
+            @FormParam("professorId") int professorId,
+            @NotNull(message = "Name cannot be null")
+            @Size(min = 3, max = 25, message = "Name should be between 3 and 25")
+            @FormParam("name") String name,
+            @NotNull(message = "Gender cannot be null")
+            @FormParam("gender") String gender,
+            @NotNull(message = "Username cannot be null")
+            @FormParam("username") String username,
+            @NotNull(message = "Password cannot be null")
+            @FormParam("password") String password) {
         String res = "";
         Professor professor = new Professor(name, professorId, gender);
         res=adminOperation.addProfessor(professor, username, password);
@@ -111,7 +132,7 @@ public class AdminController {
      */
     @DELETE
     @Path("/dropprofessor/{username}")
-    public Response dropProfessor(@PathParam("username") String username) {
+    public Response dropProfessor(@NotNull(message = "Username cannot be null") @PathParam("username") String username) {
         String result = adminOperation.dropProfessor(username);
         return Response.status(200).entity(result).build();
     }
@@ -125,7 +146,11 @@ public class AdminController {
     @GET
     @Path("/students/{courseId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response viewStudentsInCourse(@PathParam("courseId") int courseId) {
+    public Response viewStudentsInCourse(
+            @DecimalMin(value = "101", message = "Course ID range starts from 101.")
+            @DecimalMax(value = "199", message = "Course ID range till 199 only.")
+            @NotNull(message = "CourseID cannot be null")
+            @PathParam("courseId") int courseId) {
         List<Student> studentsInCourse = adminOperation.viewStudentInCourse(courseId);
         JSONArray jsonArray = new JSONArray();
         for (Student student : studentsInCourse) {
@@ -149,7 +174,15 @@ public class AdminController {
      */
     @POST
     @Path("/assigncourse")
-    public Response assignCourseToStudent(@FormParam("studentId") int studentId, @FormParam("courseId") int courseId) {
+    public Response assignCourseToStudent(
+            @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
+            @DecimalMax(value = "399", message = "Students ID range till 399 only.")
+            @NotNull(message = "StudentID cannot be null")
+            @FormParam("studentId") int studentId,
+            @DecimalMin(value = "101", message = "Course ID range starts from 101.")
+            @DecimalMax(value = "199", message = "Course ID range till 199 only.")
+            @NotNull(message = "CourseID cannot be null")
+            @FormParam("courseId") int courseId) {
         String res = "";
         System.out.println(studentId);
         System.out.println(courseId);
@@ -171,7 +204,7 @@ public class AdminController {
     @GET
     @Path("/notifications")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response showNotifications(@QueryParam("username") String username) {
+    public Response showNotifications(@NotNull(message = "Userame cannot be null") @QueryParam("username") String username) {
         System.out.println(username);
         List<Notification> notificationList = userOperation.showNotifications(username);
         int count = 0;
