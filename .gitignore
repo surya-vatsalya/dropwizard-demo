@@ -1,0 +1,8 @@
+# Project exclude paths
+/.idea/
+/out/
+/*.iml
+contacts.log
+/target
+/src/main/resources/log4j.properties
+/src/main/resources/config.properties
