@@ -1,4 +1,4 @@
-package com.flipkart.dropwizarddemo;
+package com.flipkart.rest;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Grade;

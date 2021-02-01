@@ -1,4 +1,4 @@
-package com.flipkart.dropwizarddemo;
+package com.flipkart.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

@@ -1,9 +1,8 @@
-package com.flipkart.dropwizarddemo;
+package com.flipkart.rest;
 
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Environment;
-import com.flipkart.dropwizarddemo.HelloWorldResource;
 
 
 public class SampleService extends Application<Configuration> {
