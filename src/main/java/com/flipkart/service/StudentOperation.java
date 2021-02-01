@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class StudentOperation extends UserOperation implements StudentInterface {
     private static Logger logger = Logger.getLogger(StudentOperation.class);
-    private CourseDaoImplement courseDaoImplement = new CourseDaoImplement();
-    private StudentDaoImplement studentDaoImplement = new StudentDaoImplement();
+    private CourseDaoImplement courseDaoImplement = CourseDaoImplement.getInstance();
+    private StudentDaoImplement studentDaoImplement = StudentDaoImplement.getInstance();
     private int studentId;
 
     public StudentOperation(int studentId) {

@@ -25,8 +25,22 @@ import java.sql.SQLException;
 public class AdminDaoImplement implements AdminDaoInterface {
 
     private static Logger logger = Logger.getLogger(AdminDaoImplement.class);
+    private static AdminDaoImplement singleton;
     static Connection connection = DBUtils.getConnection();
     UserInterface userOperation = new UserOperation();
+
+
+    private AdminDaoImplement(){
+        // pass
+    }
+
+
+    public static AdminDaoImplement getInstance(){
+        if(singleton == null){
+            singleton = new AdminDaoImplement();
+        }
+        return singleton;
+    }
 
     /**
      * Adds new courses to the catalog

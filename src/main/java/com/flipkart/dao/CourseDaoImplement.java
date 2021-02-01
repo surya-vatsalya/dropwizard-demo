@@ -23,9 +23,26 @@ import java.util.List;
 public class CourseDaoImplement {
 
     private static Logger logger = Logger.getLogger(CourseDaoImplement.class);
-
-    // setup the connection
+    private static CourseDaoImplement singleton;
     static Connection conn = DBUtils.getConnection();
+
+
+    private CourseDaoImplement(){
+        // pass
+    }
+
+
+    /**
+     *
+     * @return singlton instance of class CourseDaoImplement
+     */
+    public static CourseDaoImplement getInstance(){
+        if(singleton == null){
+            singleton = new CourseDaoImplement();
+        }
+        return singleton;
+    }
+
 
     /**
      * Extracts course object of Course class

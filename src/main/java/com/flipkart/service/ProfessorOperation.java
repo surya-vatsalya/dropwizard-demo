@@ -27,8 +27,8 @@ public class ProfessorOperation extends UserOperation implements ProfessorInterf
 
     private static Logger logger = Logger.getLogger(ProfessorOperation.class);
     private int professorId;
-    private CourseDaoImplement courseDaoImplement = new CourseDaoImplement();
-    private ProfessorDaoImplement professorDaoImplement = new ProfessorDaoImplement();
+    private CourseDaoImplement courseDaoImplement = CourseDaoImplement.getInstance();
+    private ProfessorDaoImplement professorDaoImplement = ProfessorDaoImplement.getInstance();
 
     public ProfessorOperation(int professorId) {
         this.professorId = professorId;

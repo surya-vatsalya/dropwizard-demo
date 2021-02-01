@@ -16,5 +16,5 @@ public interface ProfessorDaoInterface {
      * @param username used for extracting Professor details
      * @return professor object containing Professor details
      */
-    public Professor getProfessor(String username);
+    //public Professor getProfessor(String username);
 }

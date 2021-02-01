@@ -17,5 +17,5 @@ public interface StudentDaoInterface {
      * @param username used for extracting Student details
      * @return student object containing Student details
      */
-    public Student getStudent(String username);
+    //public Student getStudent(String username);
 }

@@ -19,11 +19,25 @@ import java.sql.SQLException;
  */
 public class ProfessorDaoImplement implements ProfessorDaoInterface {
 
-
     private static Logger logger = Logger.getLogger(ProfessorDaoImplement.class);
+
+    private static ProfessorDaoImplement singleton;
 
     // set up the DB connection
     Connection conn = DBUtils.getConnection();
+
+
+    private ProfessorDaoImplement(){
+        // pass
+    }
+
+
+    public static ProfessorDaoImplement getInstance(){
+        if(singleton == null){
+            singleton = new ProfessorDaoImplement();
+        }
+        return singleton;
+    }
 
 
     /**
@@ -32,7 +46,7 @@ public class ProfessorDaoImplement implements ProfessorDaoInterface {
      * @param username unique identifier of professor for obtaining professor object
      * @return professor object
      */
-    @Override
+    //@Override
     public Professor getProfessor(String username) {
 
         PreparedStatement stmt = null;

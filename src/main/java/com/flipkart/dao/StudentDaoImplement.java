@@ -19,9 +19,21 @@ import java.sql.SQLException;
  */
 public class StudentDaoImplement implements StudentDaoInterface {
     private static Logger logger = Logger.getLogger(StudentDaoImplement.class);
-
-    // setup the connection
+    private static StudentDaoImplement singleton;
     Connection conn = DBUtils.getConnection();
+
+
+    private StudentDaoImplement(){
+        // pass
+    }
+
+
+    public static StudentDaoImplement getInstance(){
+        if(singleton == null){
+            singleton = new StudentDaoImplement();
+        }
+        return singleton;
+    }
 
     /**
      * Extracts student object of Student class
@@ -29,7 +41,6 @@ public class StudentDaoImplement implements StudentDaoInterface {
      * @param username used for extracting Student details
      * @return student object containing Student details
      */
-    @Override
     public Student getStudent(String username) {
         //String SQL = SQLQueriesConstants.GET_STUDENT; // this statement we will get from the const package
         PreparedStatement stmt = null;

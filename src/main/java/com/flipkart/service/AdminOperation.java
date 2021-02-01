@@ -23,8 +23,8 @@ public class AdminOperation extends UserOperation implements AdminInterface {
 
     private static Logger logger = Logger.getLogger(AdminOperation.class);
     private int adminId;
-    private AdminDaoImplement adminDaoImplement = new AdminDaoImplement();
-    private CourseDaoImplement courseDaoImplement = new CourseDaoImplement();
+    private AdminDaoImplement adminDaoImplement = AdminDaoImplement.getInstance();
+    private CourseDaoImplement courseDaoImplement = CourseDaoImplement.getInstance();
 
     public AdminOperation(int adminId) {
         this.adminId = adminId;

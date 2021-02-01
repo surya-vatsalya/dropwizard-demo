@@ -28,7 +28,6 @@ public class ProfessorCRSClient {
     private static Logger logger = Logger.getLogger(ProfessorCRSClient.class);
     private static int professorId;
     private ProfessorInterface professorOperation;
-    private ProfessorDaoImplement professorDaoImplement = new ProfessorDaoImplement();
     private UserOperation userOperation = new UserOperation();
     public ProfessorCRSClient(int professorId) {
         this.professorId = professorId;

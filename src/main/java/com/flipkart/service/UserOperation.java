@@ -7,6 +7,7 @@ import com.flipkart.dao.UserDaoImplement;
 import java.util.List;
 
 /**
+ *
  * @author JEDI05
  */
 
@@ -14,6 +15,8 @@ import java.util.List;
  * User service class that implements UserInterface
  */
 public class UserOperation implements UserInterface {
+
+    private UserDaoImplement userDaoImplement = UserDaoImplement.getInstance();
 
     /**
      * Allows user to perform login into the system
@@ -25,20 +28,20 @@ public class UserOperation implements UserInterface {
     @Override
     public String login(String username, String password) {
         String userType = null;
-        userType = UserDaoImplement.login(username, password);
+        userType = userDaoImplement.login(username, password);
         return userType;
     }
 
     /**
      * Allows student to do registration
      *
-     * @param student  object of student class paased for registration
+     * @param student  object of student class passed for registration
      * @param username unique identifier of user required for registration
      * @param password password of the user required for registration
      */
     @Override
     public Boolean registerStudent(Student student, String username, String password) {
-        return UserDaoImplement.registerStudent(student, username, password);
+        return userDaoImplement.registerStudent(student, username, password);
     }
 
     /**
@@ -49,7 +52,7 @@ public class UserOperation implements UserInterface {
      */
     @Override
     public String forgotPassword(String username) {
-        return UserDaoImplement.forgotPassword(username);
+        return userDaoImplement.forgotPassword(username);
     }
 
     /**
@@ -62,7 +65,7 @@ public class UserOperation implements UserInterface {
      */
     @Override
     public Boolean registerUser(String username, String password, String role) {
-        return UserDaoImplement.registerUser(username, password, role);
+        return userDaoImplement.registerUser(username, password, role);
     }
 
     /**
@@ -72,7 +75,7 @@ public class UserOperation implements UserInterface {
      */
     @Override
     public List<Notification> showNotifications(String username){
-        return UserDaoImplement.showNotifications(username);
+        return userDaoImplement.showNotifications(username);
     }
 
 }

@@ -80,7 +80,8 @@ public class CRSMainApplication {
                 System.out.println("Welcome " + username + "!");
                 System.out.println(StatementConstants.LoggedAsAdmin);
                 CRSMainApplication.loggedIn = true;
-                AdminDaoInterface adminDaoImpl = new AdminDaoImplement();
+                //AdminDaoInterface adminDaoImpl = new AdminDaoImplement();
+                AdminDaoImplement adminDaoImpl = AdminDaoImplement.getInstance();
                 Admin admin = adminDaoImpl.getAdmin(username);
                 AdminCRSClient adminCRSClient = new AdminCRSClient(admin.getAdminId());
                 adminCRSClient.displayMenu();
@@ -89,7 +90,8 @@ public class CRSMainApplication {
                 System.out.println("Welcome " + username + "!");
                 System.out.println(StatementConstants.LoggedAsProfessor);
                 CRSMainApplication.loggedIn = true;
-                ProfessorDaoInterface professorDaoImpl = new ProfessorDaoImplement();
+                //ProfessorDaoInterface professorDaoImpl = new ProfessorDaoImplement();
+                ProfessorDaoImplement professorDaoImpl = ProfessorDaoImplement.getInstance();
                 Professor professor = professorDaoImpl.getProfessor(username);
                 ProfessorCRSClient professorCRSClient = new ProfessorCRSClient(professor.getProfessorId());
                 professorCRSClient.displayMenu();
@@ -98,7 +100,8 @@ public class CRSMainApplication {
                 System.out.println("Welcome " + username + "!");
                 System.out.println(StatementConstants.LoggedAsStudent);
                 CRSMainApplication.loggedIn = true;
-                StudentDaoInterface studentDaoImpl = new StudentDaoImplement();
+                //StudentDaoImplement studentDaoImpl = new StudentDaoImplement();
+                StudentDaoImplement studentDaoImpl = StudentDaoImplement.getInstance();
                 Student student = studentDaoImpl.getStudent(username);
                 StudentCRSClient studentCRSClient = new StudentCRSClient(student.getStudentId());
                 studentCRSClient.displayMenu();

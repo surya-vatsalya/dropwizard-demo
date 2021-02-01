@@ -23,7 +23,20 @@ import java.util.List;
  */
 public class UserDaoImplement {
     private static Logger logger = Logger.getLogger(UserDaoImplement.class);
+    private static UserDaoImplement singleton;
     static Connection connection = DBUtils.getConnection();
+
+    private UserDaoImplement(){
+        // pass
+    }
+
+
+    public static UserDaoImplement getInstance(){
+        if(singleton == null){
+            singleton = new UserDaoImplement();
+        }
+        return singleton;
+    }
 
     /**
      * Logging into the application using username and password
@@ -32,7 +45,7 @@ public class UserDaoImplement {
      * @param password password of user for logging into the application
      * @return role of the user
      */
-    public static String login(String username, String password) {
+    public String login(String username, String password) {
         PreparedStatement stmt = null;
         String role = "";
         try {
@@ -58,7 +71,7 @@ public class UserDaoImplement {
      * @param password password of student for registering into the application
      * @return true if registration successful else false
      */
-    public static Boolean registerStudent(Student student, String username, String password) {
+    public Boolean registerStudent(Student student, String username, String password) {
         if (!registerUser(username, password, "s")) {
             System.out.println(StatementConstants.NoUser);
             return false;
@@ -101,7 +114,7 @@ public class UserDaoImplement {
      * @param password password of user for registering into the application
      * @return true if registration successful else false
      */
-    public static Boolean registerUser(String username, String password, String role) {
+    public Boolean registerUser(String username, String password, String role) {
 
         PreparedStatement stmt = null;
         try {
@@ -130,7 +143,7 @@ public class UserDaoImplement {
      * @param username unique identifier of user for forgot password
      * @return notifies user whether forgot password was successful or not
      */
-    public static String forgotPassword(String username) {
+    public String forgotPassword(String username) {
         PreparedStatement stmt = null;
         PreparedStatement stmtNotify = null;
         String role = "";
@@ -164,7 +177,7 @@ public class UserDaoImplement {
      * @param username unique identifier of user for displaying notifications
      * @return sends user list of notifications
      */
-    public static List<Notification> showNotifications(String username) {
+    public List<Notification> showNotifications(String username) {
         PreparedStatement stmt = null;
         String notificationText = "";
 
