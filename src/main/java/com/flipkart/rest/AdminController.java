@@ -52,6 +52,8 @@ public class AdminController {
             JSONObject courseJson = new JSONObject();
             courseJson.put("Course Id", course.getCourseId());
             courseJson.put("Course Name", course.getName());
+            courseJson.put("Course Department", course.getDepartment());
+            courseJson.put("Course Fees", course.getFees());
             jsonArray.add(courseJson);
         }
         return Response.status(200).entity(jsonArray.toJSONString()).build();
@@ -62,20 +64,53 @@ public class AdminController {
      *
      * @return response object with the status and json string with message
      */
+//    @POST
+//    @Path("/add-course")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Response addCourse(Course course) {
+//        String res = "";
+//        try {
+//            adminOperation.addCourseInCatalog(course);
+//            res = "Successfully added: " + course;
+//        } catch (RepeatException e) {
+//            res = e.getMessage();
+//        }
+//        return Response.status(201).entity(res).build();
+//    }
+
     @POST
     @Path("/add-course")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addCourse(Course course) {
+    public Response addCourse(
+            @DecimalMin(value = "101", message = "Course ID range starts from 101.")
+            @DecimalMax(value = "199", message = "Course ID range till 199 only.")
+            @NotNull(message = "CourseID cannot be null")
+            @FormParam("courseId") int courseId,
+            @DecimalMin(value = "201", message = "Course ID range starts from 201.")
+            @DecimalMax(value = "299", message = "Course ID range till 299 only.")
+            @NotNull(message = "ProfessorID cannot be null")
+            @FormParam("professorId") int professorId,
+            @Size(min = 1, max=25, message = "size should be between 1 and 25")
+            @NotNull(message = "courseName cannot be null")
+            @FormParam("courseName") String courseName,
+            @Size(min = 1, max=25, message = "size should be between 1 and 20")
+            @NotNull(message = "department cannot be null")
+            @FormParam("department") String department,
+            @DecimalMin(value = "100", message = "Minimum Fees is 100")
+            @DecimalMax(value = "999", message = "Maximum Fees is 999")
+            @NotNull(message = "Fees cant be null") int fees
+    ) {
         String res = "";
         try {
-            adminOperation.addCourseInCatalog(course);
-            res = "Successfully added: " + course;
+
+            Course newCourse = new Course(courseName,courseId,professorId,department,fees);
+            adminOperation.addCourseInCatalog(newCourse);
+            res = "Successfully added: " + newCourse;
         } catch (RepeatException e) {
             res = e.getMessage();
         }
         return Response.status(201).entity(res).build();
     }
-
     /**
      * Delete method that uses course id to delete a particular course
      *

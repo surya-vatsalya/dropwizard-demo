@@ -57,6 +57,8 @@ public class StudentController {
             JSONObject courseJson = new JSONObject();
             courseJson.put("Course Id", course.getCourseId());
             courseJson.put("Course Name", course.getName());
+            courseJson.put("Course Department", course.getDepartment());
+            courseJson.put("Course Fees", course.getFees());
             jsonArray.add(courseJson);
         }
         return jsonArray.toJSONString();
@@ -123,7 +125,7 @@ public class StudentController {
      * @return json string with course id and grade letter
      */
     @GET
-    @Path("view-reportcard")
+    @Path("view-report-card")
     @Produces(MediaType.APPLICATION_JSON)
     public String viewReportCard(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
@@ -182,7 +184,7 @@ public class StudentController {
      * @throws LimitExceededException if student limit for a course is exceeded
      */
     @POST
-    @Path("/pay-fees/")
+    @Path("/pay-fees")
     @Produces(MediaType.APPLICATION_JSON)
     public Response payFees(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
@@ -232,7 +234,7 @@ public class StudentController {
     @Path("/notifications")
     @Produces(MediaType.APPLICATION_JSON)
     public Response showNotifications(
-            @NotNull(message = "Userame cannot be null")
+            @NotNull(message = "Username cannot be null")
             @QueryParam("username") String username) {
         System.out.println(username);
         UserInterface userOperation = new UserOperation();

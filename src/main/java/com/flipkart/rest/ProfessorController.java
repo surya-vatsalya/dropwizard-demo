@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Professor Controller class
  */
-@Path("/professorcontroller/{professorid}")
+@Path("/professorcontroller/{professorId}")
 public class ProfessorController {
 
     /**
@@ -37,12 +37,11 @@ public class ProfessorController {
     @GET
     @Path("/course-catalog")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewCourses(@PathParam("professorid")
+    public String viewCourses(@PathParam("professorId")
                               @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                               @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                               @NotNull(message = "ProfessorID cannot be null")
-                                      int professorId)
-
+                              int professorId)
     {
         ProfessorInterface professorOperation = new ProfessorOperation(professorId);
         List<Course> courseList = professorOperation.viewCourses();
@@ -51,6 +50,8 @@ public class ProfessorController {
             JSONObject courseJson = new JSONObject();
             courseJson.put("Course Id", course.getCourseId());
             courseJson.put("Course Name", course.getName());
+            courseJson.put("Course Department", course.getDepartment());
+            courseJson.put("Course Fees", course.getFees());
             jsonArray.add(courseJson);
         }
 
@@ -65,7 +66,7 @@ public class ProfessorController {
     @GET
     @Path("view-assigned-courses")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewAssignedCourses(@PathParam("professorid")
+    public String viewAssignedCourses(@PathParam("professorId")
                                       @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                       @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                       @NotNull(message = "ProfessorID cannot be null")
@@ -89,14 +90,14 @@ public class ProfessorController {
      * @return json string with student id, name, gender, semester and branch
      */
     @GET
-    @Path("view-student-in-course/{courseid}")
+    @Path("view-student-in-course/{courseId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewStudents(@PathParam("professorid")
+    public String viewStudents(@PathParam("professorId")
                                @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                @NotNull(message = "ProfessorID cannot be null")
                                        int professorId,
-                               @PathParam("courseid")
+                               @PathParam("courseId")
                                @DecimalMin(value = "101", message = "Course ID range starts from 101.")
                                @DecimalMax(value = "199", message = "Course ID range till 199 only.")
                                @NotNull(message = "CourseID cannot be null")
@@ -139,7 +140,7 @@ public class ProfessorController {
                                   @DecimalMax(value = "199", message = "Course ID range till 199 only.")
                                   @NotNull(message = "CourseID cannot be null")
                                           int courseId,
-                                  @PathParam("professorid")
+                                  @PathParam("professorId")
                                   @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                   @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                   @NotNull(message = "ProfessorID cannot be null")
@@ -166,7 +167,7 @@ public class ProfessorController {
     @Path("/assign-grade")
     @Produces(MediaType.APPLICATION_JSON)
     public Response assignGrades(
-                                @PathParam("professorid")
+                                @PathParam("professorId")
                                  @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                  @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                  @NotNull(message = "ProfessorID cannot be null")
