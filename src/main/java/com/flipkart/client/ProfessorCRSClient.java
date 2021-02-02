@@ -64,9 +64,6 @@ public class ProfessorCRSClient {
                     showNotifications();
                     break;
                 case 6:
-                    chooseCourse();
-                    break;
-                case 7:
                     return;
             }
         } while (true);
@@ -83,8 +80,7 @@ public class ProfessorCRSClient {
         System.out.println(StatementConstants.ViewStudents);
         System.out.println(StatementConstants.AssignGrades);
         System.out.println("5. " + StatementConstants.showNotification);
-        System.out.println("6. choose course");
-        System.out.println("7. Logout");
+        System.out.println("6. Logout");
     }
 
     /**
@@ -117,18 +113,6 @@ public class ProfessorCRSClient {
         }
     }
 
-    /**
-     * Allows professor to select a particular course to teach
-     */
-    public void chooseCourse() {
-        System.out.println(StatementConstants.CIdToTeach);
-        int courseId = Integer.parseInt(sc.nextLine());
-        try {
-            professorOperation.chooseCourse(courseId);
-        } catch (RepeatException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     /**
      * Uses Course Id to view Students registered in that course

@@ -58,24 +58,21 @@ public class AdminCRSClient {
                     addProfessor();
                     break;
                 case 6:
-                    dropProfessor();
-                    break;
-                case 7:
                     viewStudentsInCourse();
                     break;
-                case 8:
+                case 7:
                     showNotifications();
                     break;
-                case 9:
+                case 8:
                     getAllCourseRequests();
                     break;
-                case 10:
+                case 9:
                     getAllStudents();
                     break;
-                case 11:
+                case 10:
                     getAllProfessors();
                     break;
-                case 12:
+                case 11:
                     return;
             }
         } while (true);
@@ -92,13 +89,12 @@ public class AdminCRSClient {
         System.out.println(StatementConstants.DropCourse);
         System.out.println(StatementConstants.AssignCourseToStudent);
         System.out.println(StatementConstants.AddProfessor);
-        System.out.println(StatementConstants.RemoveProfessor);
-        System.out.println(StatementConstants.ViewStudentsInCourse);
-        System.out.println("8. " + StatementConstants.showNotification);
-        System.out.println("9. View All Course Requests");
-        System.out.println("10. View all students");
-        System.out.println("11. View all professors");
-        System.out.println(StatementConstants.Logout);
+        System.out.println("6. View Students in course");
+        System.out.println("7. Show Notifications");
+        System.out.println("8. View All Course Requests");
+        System.out.println("9. View all students");
+        System.out.println("10. View all professors");
+        System.out.println("11. Logout");
     }
 
     /**
@@ -257,6 +253,21 @@ public class AdminCRSClient {
         for (Notification notification : notificationList) {
             count++;
             System.out.println(count + ". -> " + notification.getNotificationText());
+        }
+    }
+
+    /**
+     * Allows professor to select a particular course to teach
+     */
+    public void assignCourseToProfessor(){
+        System.out.println("Enter the course id");
+        int courseId = Integer.parseInt(sc.nextLine());
+        System.out.println("Enter the professor id");
+        int professorId = Integer.parseInt(sc.nextLine());
+        try {
+            adminOperation.assignProfessorToCourse(courseId, professorId);
+        } catch (RepeatException e) {
+            System.out.println(e.getMessage());
         }
     }
 
