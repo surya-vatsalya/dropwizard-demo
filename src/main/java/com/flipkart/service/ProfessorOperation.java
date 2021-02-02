@@ -52,18 +52,18 @@ public class ProfessorOperation extends UserOperation implements ProfessorInterf
     @Override
     public List<Course> viewAssignedCourses() {
         List<Course> allCourses = courseDaoImplement.getAllCoursesInCatalog();
-        //System.out.println("all.courses.size" + allCourses.size());
+        //logger.info("all.courses.size" + allCourses.size());
         List<Course> professorCourses = new ArrayList<>();
-        //System.out.println("this.professorId in viewAssignedCourses" + this.professorId);
-        //System.out.println("professorCourses.size" + professorCourses.size());
+        //logger.info("this.professorId in viewAssignedCourses" + this.professorId);
+        //logger.info("professorCourses.size" + professorCourses.size());
         for (Course course : allCourses) {
-            //System.out.println("CourseId : "+course.getCourseId());
-            //System.out.println("Professor Id : "+course.getProfessorId());
+            //logger.info("CourseId : "+course.getCourseId());
+            //logger.info("Professor Id : "+course.getProfessorId());
             if (course.getProfessorId() == this.professorId) {
                 professorCourses.add(course);
             }
         }
-        //System.out.println("professorCourses.size" + professorCourses.size());
+        //logger.info("professorCourses.size" + professorCourses.size());
         return professorCourses;
     }
 
@@ -83,7 +83,7 @@ public class ProfessorOperation extends UserOperation implements ProfessorInterf
 
 
         List<Student> studentsList = courseDaoImplement.getStudentsOfCourse(courseId);
-        //System.out.println(studentsList.size());
+        //logger.info(studentsList.size());
         return studentsList;
     }
 

@@ -83,18 +83,18 @@ public class AdminCRSClient {
      * Displays available choices to the admin
      */
     void showChoices() {
-        System.out.println(StatementConstants.Choice);
-        System.out.println(StatementConstants.ViewCourses);
-        System.out.println(StatementConstants.AddNewCourse);
-        System.out.println(StatementConstants.DropCourse);
-        System.out.println(StatementConstants.AssignCourseToStudent);
-        System.out.println(StatementConstants.AddProfessor);
-        System.out.println("6. View Students in course");
-        System.out.println("7. Show Notifications");
-        System.out.println("8. View All Course Requests");
-        System.out.println("9. View all students");
-        System.out.println("10. View all professors");
-        System.out.println("11. Logout");
+        logger.info(StatementConstants.Choice);
+        logger.info(StatementConstants.ViewCourses);
+        logger.info(StatementConstants.AddNewCourse);
+        logger.info(StatementConstants.DropCourse);
+        logger.info(StatementConstants.AssignCourseToStudent);
+        logger.info(StatementConstants.AddProfessor);
+        logger.info("6. View Students in course");
+        logger.info("7. Show Notifications");
+        logger.info("8. View All Course Requests");
+        logger.info("9. View all students");
+        logger.info("10. View all professors");
+        logger.info("11. Logout");
     }
 
     /**
@@ -103,12 +103,12 @@ public class AdminCRSClient {
     void viewCourses() {
         List<Course> courseList = adminOperation.viewCoursesInCatalog();
         for (Course course : courseList) {
-            System.out.println("Course ID: " + course.getCourseId());
-            System.out.println("Course Name: " + course.getName());
-            System.out.println("Department: "+ course.getDepartment());
-            System.out.println("Course Fees: "+ course.getFees());
-            System.out.println("Professor Id: "+ course.getProfessorId());
-            System.out.println();
+            logger.info("Course ID: " + course.getCourseId());
+            logger.info("Course Name: " + course.getName());
+            logger.info("Department: "+ course.getDepartment());
+            logger.info("Course Fees: "+ course.getFees());
+            logger.info("Professor Id: "+ course.getProfessorId());
+            logger.info(" ");
         }
     }
 
@@ -116,21 +116,21 @@ public class AdminCRSClient {
      * Gathers required information to add new courses in the course catalog
      */
     void addNewCourse() {
-        System.out.println(StatementConstants.CId);
+        logger.info(StatementConstants.CId);
         int courseId = Integer.parseInt(sc.nextLine());
-        System.out.println(StatementConstants.Cname);
+        logger.info(StatementConstants.Cname);
         String courseName = sc.nextLine();
-        System.out.println(StatementConstants.Dept);
+        logger.info(StatementConstants.Dept);
         String department = sc.nextLine();
-        System.out.println(StatementConstants.PId);
+        logger.info(StatementConstants.PId);
         int professorId = Integer.parseInt(sc.nextLine());
-        System.out.println(StatementConstants.Fees);
+        logger.info(StatementConstants.Fees);
         int fees = Integer.parseInt(sc.nextLine());
         Course course = new Course(courseName, courseId, professorId, department, fees); // zero professor Id means not assigned since null can not be used
         try {
             adminOperation.addCourseInCatalog(course);
         } catch (RepeatException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -138,7 +138,7 @@ public class AdminCRSClient {
      * Uses course id to delete a particular course
      */
     void deleteCourse() {
-        System.out.println(StatementConstants.CId);
+        logger.info(StatementConstants.CId);
         int courseId = Integer.parseInt(sc.nextLine());
         adminOperation.dropCourseInCatalog(courseId);
     }
@@ -147,14 +147,14 @@ public class AdminCRSClient {
      * Uses course Id and student Id to assign a particular course to a student
      */
     void assignCourseToStudent() {
-        System.out.println(StatementConstants.CId);
+        logger.info(StatementConstants.CId);
         int courseId = Integer.parseInt(sc.nextLine());
-        System.out.println(StatementConstants.SId);
+        logger.info(StatementConstants.SId);
         int studentId = Integer.parseInt(sc.nextLine());
         try {
             adminOperation.AssignStudentToCourse(studentId, courseId);
         } catch (LimitExceededException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -162,15 +162,15 @@ public class AdminCRSClient {
      * Gathers details of professor and assigns role of Professor
      */
     void addProfessor() {
-        System.out.println(StatementConstants.PId);
+        logger.info(StatementConstants.PId);
         int professorId = Integer.parseInt(sc.nextLine());
-        System.out.println(StatementConstants.PName);
+        logger.info(StatementConstants.PName);
         String professorName = sc.nextLine();
-        System.out.println(StatementConstants.PGender);
+        logger.info(StatementConstants.PGender);
         String professorGender = sc.nextLine();
-        System.out.println(StatementConstants.Uname);
+        logger.info(StatementConstants.Uname);
         String username = sc.nextLine();
-        System.out.println(StatementConstants.Pwd);
+        logger.info(StatementConstants.Pwd);
         String password = sc.nextLine();
         Professor professor = new Professor(professorName, professorId, professorGender);
         adminOperation.addProfessor(professor, username, password);
@@ -180,7 +180,7 @@ public class AdminCRSClient {
      * Uses Professor username to drop him/her
      */
     void dropProfessor() {
-        System.out.println(StatementConstants.Uname);
+        logger.info(StatementConstants.Uname);
         String username = sc.nextLine();
         adminOperation.dropProfessor(username);
     }
@@ -189,56 +189,56 @@ public class AdminCRSClient {
      * Displays student details of all the students registered in a particular course
      */
     private void viewStudentsInCourse() {
-        System.out.println(StatementConstants.CIdToView);
+        logger.info(StatementConstants.CIdToView);
         int courseId = Integer.parseInt(sc.nextLine());
         List<Student> studentsInCourse = adminOperation.viewStudentInCourse(courseId);
 
-        System.out.println("The List of Students enrolled in " + courseId);
+        logger.info("The List of Students enrolled in " + courseId);
         for (Student student : studentsInCourse) {
-            System.out.println("Student Id: " + student.getStudentId());
-            System.out.println("Name: " + student.getName());
-            System.out.println("Branch: " + student.getBranch());
-            System.out.println("Semester: " + student.getSemester());
-            System.out.println("Gender: " + student.getGender() + "\n");
+            logger.info("Student Id: " + student.getStudentId());
+            logger.info("Name: " + student.getName());
+            logger.info("Branch: " + student.getBranch());
+            logger.info("Semester: " + student.getSemester());
+            logger.info("Gender: " + student.getGender() + "\n");
         }
     }
 
 
     public void getAllCourseRequests() {
         List<RequestedCourse> requestedCourseList = adminOperation.getAllRequestedCourses();
-        System.out.println("All Course Requests : ");
+        logger.info("All Course Requests : ");
 
         for (RequestedCourse requestedCourse : requestedCourseList) {
-            System.out.println("Student Id: " + requestedCourse.getStudentId());
-            System.out.println("Course Id: " + requestedCourse.getCourseId());
-            System.out.println(requestedCourse.isPrimary() ? "Primary Choice" : "Secondary Choice");
-            System.out.println();
+            logger.info("Student Id: " + requestedCourse.getStudentId());
+            logger.info("Course Id: " + requestedCourse.getCourseId());
+            logger.info(requestedCourse.isPrimary() ? "Primary Choice" : "Secondary Choice");
+            logger.info(" ");
         }
     }
 
 
     public void getAllProfessors() {
         List<Professor> professorList = adminOperation.getAllProfessors();
-        System.out.println("Professor List:\n");
+        logger.info("Professor List:\n");
         for (Professor professor : professorList) {
-            System.out.println("Professor Id: " + professor.getProfessorId());
-            System.out.println("Name: " + professor.getName());
-            System.out.println("Gender: " + professor.getGender());
-            System.out.println();
+            logger.info("Professor Id: " + professor.getProfessorId());
+            logger.info("Name: " + professor.getName());
+            logger.info("Gender: " + professor.getGender());
+            logger.info(" ");
         }
     }
 
 
     public void getAllStudents() {
         List<Student> studentsList = adminOperation.getAllStudents();
-        System.out.println("Student List:\n");
+        logger.info("Student List:\n");
         for (Student student : studentsList) {
-            System.out.println("Student Id: " + student.getStudentId());
-            System.out.println("Name: " + student.getName());
-            System.out.println("Gender: " + student.getGender());
-            System.out.println("Branch: " + student.getBranch());
-            System.out.println("Semester: " + student.getSemester());
-            System.out.println();
+            logger.info("Student Id: " + student.getStudentId());
+            logger.info("Name: " + student.getName());
+            logger.info("Gender: " + student.getGender());
+            logger.info("Branch: " + student.getBranch());
+            logger.info("Semester: " + student.getSemester());
+            logger.info(" ");
         }
     }
 
@@ -252,7 +252,7 @@ public class AdminCRSClient {
         int count = 0;
         for (Notification notification : notificationList) {
             count++;
-            System.out.println(count + ". -> " + notification.getNotificationText());
+            logger.info(count + ". -> " + notification.getNotificationText());
         }
     }
 
@@ -260,14 +260,14 @@ public class AdminCRSClient {
      * Allows professor to select a particular course to teach
      */
     public void assignCourseToProfessor(){
-        System.out.println("Enter the course id");
+        logger.info("Enter the course id");
         int courseId = Integer.parseInt(sc.nextLine());
-        System.out.println("Enter the professor id");
+        logger.info("Enter the professor id");
         int professorId = Integer.parseInt(sc.nextLine());
         try {
             adminOperation.assignProfessorToCourse(courseId, professorId);
         } catch (RepeatException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 

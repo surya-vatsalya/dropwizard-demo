@@ -82,16 +82,16 @@ public class StudentCRSClient {
      * Displays available choices to the student
      */
     public void showChoices() {
-        System.out.println(StatementConstants.Choice);
-        System.out.println(StatementConstants.ViewCourses);
-        System.out.println(StatementConstants.RequestCourse);
-        System.out.println(StatementConstants.DropACourse);
-        System.out.println(StatementConstants.PayFees);
-        System.out.println(StatementConstants.ViewReportCard);
-        System.out.println(StatementConstants.ViewRequestedCourses);
-        System.out.println(StatementConstants.ViewAssignedCourses);
-        System.out.println("8. " + StatementConstants.showNotification);
-        System.out.println("9. Logout");
+        logger.info(StatementConstants.Choice);
+        logger.info(StatementConstants.ViewCourses);
+        logger.info(StatementConstants.RequestCourse);
+        logger.info(StatementConstants.DropACourse);
+        logger.info(StatementConstants.PayFees);
+        logger.info(StatementConstants.ViewReportCard);
+        logger.info(StatementConstants.ViewRequestedCourses);
+        logger.info(StatementConstants.ViewAssignedCourses);
+        logger.info("8. " + StatementConstants.showNotification);
+        logger.info("9. Logout");
     }
 
     /**
@@ -100,12 +100,12 @@ public class StudentCRSClient {
     public void viewCourses() {
         List<Course> courses = studentOperation.viewCourses();
         for (Course course : courses) {
-            System.out.println("Course ID: " + course.getCourseId());
-            System.out.println("Course Name: " + course.getName());
-            System.out.println("Department: "+ course.getDepartment());
-            System.out.println("Course Fees: "+ course.getFees());
-            System.out.println("Professor Id: "+ course.getProfessorId());
-            System.out.println();
+            logger.info("Course ID: " + course.getCourseId());
+            logger.info("Course Name: " + course.getName());
+            logger.info("Department: "+ course.getDepartment());
+            logger.info("Course Fees: "+ course.getFees());
+            logger.info("Professor Id: "+ course.getProfessorId());
+            logger.info(" ");
         }
     }
 
@@ -113,15 +113,15 @@ public class StudentCRSClient {
      * Uses course Id to select a course
      */
     public void chooseCourse() {
-        System.out.println(StatementConstants.EnterCId);
+        logger.info(StatementConstants.EnterCId);
         int courseId = Integer.parseInt(sc.nextLine());
-        System.out.println(StatementConstants.IsPrimary);
+        logger.info(StatementConstants.IsPrimary);
         int isPrimaryInt = Integer.parseInt(sc.nextLine());
         boolean isPrimary = isPrimaryInt == 1;
         try {
             studentOperation.chooseCourse(courseId, isPrimary);
         } catch (RepeatException | LimitExceededException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -129,12 +129,12 @@ public class StudentCRSClient {
      * Uses course Id to drop a course
      */
     public void dropCourse() {
-        System.out.println(StatementConstants.DropCId);
+        logger.info(StatementConstants.DropCId);
         int courseId = Integer.parseInt(sc.nextLine());
         try {
             studentOperation.dropCourse(courseId);
         } catch (CourseNotFoundException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
     }
 
@@ -142,16 +142,16 @@ public class StudentCRSClient {
      * Allows different Payment Methods for fees payment
      */
     public void payFees() {
-        System.out.println(StatementConstants.GetFees);
+        logger.info(StatementConstants.GetFees);
         sc.nextLine();
         int totalFees = studentOperation.getFees();
-        System.out.println(String.format("Your total amount is %d", totalFees));
-        System.out.println(StatementConstants.ChoosePaymentMethod);
-        System.out.println(StatementConstants.Methods);
+        logger.info(String.format("Your total amount is %d", totalFees));
+        logger.info(StatementConstants.ChoosePaymentMethod);
+        logger.info(StatementConstants.Methods);
         sc.nextLine();
-        System.out.println(StatementConstants.Pay);
+        logger.info(StatementConstants.Pay);
         sc.nextLine();
-        System.out.println(StatementConstants.PaySuccess);
+        logger.info(StatementConstants.PaySuccess);
         studentOperation.notifyPayment(totalFees);
     }
 
@@ -162,9 +162,9 @@ public class StudentCRSClient {
         List<Grade> allGradeOfStudents = studentOperation.viewReportCard();
 
         for (Grade grade : allGradeOfStudents) {
-            System.out.println("Course Id: " + grade.getCourseId());
-            System.out.println("Grade:" + grade.getGradeLetter());
-            System.out.println();
+            logger.info("Course Id: " + grade.getCourseId());
+            logger.info("Grade:" + grade.getGradeLetter());
+            logger.info(" ");
         }
 
     }
@@ -175,9 +175,9 @@ public class StudentCRSClient {
     public void viewRequestedCourses() {
         List<RequestedCourse> requestedCourseList = studentOperation.viewRequestedCourses();
         for (RequestedCourse requestedCourse : requestedCourseList) {
-            System.out.println("Course Id: " + requestedCourse.getCourseId());
-            System.out.println(requestedCourse.isPrimary() ? "Primary Choice" : "Secondary Choice");
-            System.out.println();
+            logger.info("Course Id: " + requestedCourse.getCourseId());
+            logger.info(requestedCourse.isPrimary() ? "Primary Choice" : "Secondary Choice");
+            logger.info(" ");
         }
     }
 
@@ -188,11 +188,11 @@ public class StudentCRSClient {
         List<Course> allAssignedCourse = studentOperation.viewAssignedCourses();
 
         for (Course course : allAssignedCourse) {
-            System.out.println("Course Id: "+course.getCourseId());
-            System.out.println("Course Name: "+ course.getName());
-            System.out.println("Department: " + course.getDepartment());
-            System.out.println("Fees: "+ course.getFees());
-            System.out.println(" ");
+            logger.info("Course Id: "+course.getCourseId());
+            logger.info("Course Name: "+ course.getName());
+            logger.info("Department: " + course.getDepartment());
+            logger.info("Fees: "+ course.getFees());
+            logger.info(" ");
         }
     }
 
@@ -205,7 +205,7 @@ public class StudentCRSClient {
         int count = 0;
         for (Notification notification : notificationList) {
             count++;
-            System.out.println(count + ". -> " + notification.getNotificationText());
+            logger.info(count + ". -> " + notification.getNotificationText());
         }
     }
 

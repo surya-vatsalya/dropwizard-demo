@@ -57,9 +57,9 @@ public class UserDaoImplement {
                 role = rs.getString("role");
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return role;
     }
@@ -73,7 +73,7 @@ public class UserDaoImplement {
      */
     public Boolean registerStudent(Student student, String username, String password) {
         if (!registerUser(username, password, "s")) {
-            System.out.println(StatementConstants.NoUser);
+            logger.info(StatementConstants.NoUser);
             return false;
         }
 
@@ -99,9 +99,9 @@ public class UserDaoImplement {
             }
 
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
         return false;
@@ -125,13 +125,13 @@ public class UserDaoImplement {
 
             int rows = stmt.executeUpdate();
             if (rows != 0) {
-                System.out.println(StatementConstants.Accepted);
+                logger.info(StatementConstants.Accepted);
                 return true;
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
         return false;
@@ -159,14 +159,14 @@ public class UserDaoImplement {
                 stmtNotify.setString(2, SQLQueries.FORGOT_PASS_TEXT);
                 notificationText = SQLQueries.FORGOT_PASS_TEXT;
                 int rows = stmtNotify.executeUpdate();
-                System.out.println(StatementConstants.CheckMail);
+                logger.info(StatementConstants.CheckMail);
             } else {
-                System.out.println(StatementConstants.CorrectUName);
+                logger.info(StatementConstants.CorrectUName);
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return notificationText;
     }
@@ -192,9 +192,9 @@ public class UserDaoImplement {
                 notf.add(notification);
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return notf;
     }

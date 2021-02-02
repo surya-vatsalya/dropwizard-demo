@@ -65,7 +65,7 @@ public class CourseDaoImplement {
             course = new Course(rs.getString(2), courseId, rsProf.getInt(1), rs.getString(3), rs.getInt(4));
 
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         }
 
         return course;
@@ -92,28 +92,28 @@ public class CourseDaoImplement {
             }
             rs.close();
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
         try {
             stmtFetchProf = conn.prepareStatement(SQLQueries.GET_PROFESSOR_ID_FOR_COURSE);
             for (Course course : allCourses) {
-                //System.out.println(course.getCourseId());
+                //logger.info(course.getCourseId());
                 stmtFetchProf.setInt(1, course.getCourseId());
                 ResultSet rsProf = stmtFetchProf.executeQuery();
                 int professorId = 0;
                 while (rsProf.next()) {
                     professorId = rsProf.getInt("professorId");
                 }
-                //System.out.println(professorId);
+                //logger.info(professorId);
                 course.setProfessorId(professorId);
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return allCourses;
 
@@ -140,9 +140,9 @@ public class CourseDaoImplement {
                 students.add(student);
             }
 
-            //System.out.println(students.size());
+            //logger.info(students.size());
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         }
 
         return students;
@@ -169,7 +169,7 @@ public class CourseDaoImplement {
                 professor = new Professor(rs.getString(2), rs.getInt(1), rs.getString(3));
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         }
 
         return professor;
@@ -188,10 +188,10 @@ public class CourseDaoImplement {
             stmt.setInt(1, courseId);
             stmt.setInt(2, professorId);
             int rows = stmt.executeUpdate();
-            System.out.println("Successfully added " + rows + " Course");
+            logger.info("Successfully added " + rows + " Course");
 
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            logger.info(ex.getMessage());
         }
 
     }
@@ -207,7 +207,7 @@ public class CourseDaoImplement {
         try {
 
             int studentId = requestedCourse.getStudentId();
-            //System.out.println(studentId);
+            //logger.info(studentId);
             int courseId = requestedCourse.getCourseId();
             Boolean isPrimary = requestedCourse.isPrimary();
 
@@ -223,10 +223,10 @@ public class CourseDaoImplement {
             stmt.setInt(3, isPrimaryInt);
             int rows = stmt.executeUpdate();
 
-            System.out.println("Successfully added " + rows + " Course");
+            logger.info("Successfully added " + rows + " Course");
 
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         }
     }
 
@@ -246,10 +246,10 @@ public class CourseDaoImplement {
             stmt.setInt(1, studentId);
             stmt.setInt(2, courseId);
             stmt.executeUpdate();
-            System.out.println(StatementConstants.CourseSuccess);
+            logger.info(StatementConstants.CourseSuccess);
 
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         }
     }
 
@@ -278,26 +278,26 @@ public class CourseDaoImplement {
                 allCourses.add(course);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
         try {
             stmtFetchProf = conn.prepareStatement(SQLQueries.GET_PROFESSOR_ID_FOR_COURSE);
             for (Course course : allCourses) {
-                //System.out.println(course.getCourseId());
+                //logger.info(course.getCourseId());
                 stmtFetchProf.setInt(1, course.getCourseId());
                 ResultSet rsProf = stmtFetchProf.executeQuery();
                 int professorId = 0;
                 while (rsProf.next()) {
                     professorId = rsProf.getInt("professorId");
                 }
-                //System.out.println(professorId);
+                //logger.info(professorId);
                 course.setProfessorId(professorId);
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
         return allCourses;
@@ -316,7 +316,7 @@ public class CourseDaoImplement {
             stmt.setInt(2, courseId);
             stmt.setInt(1, studentId);
             int rows = stmt.executeUpdate();
-            System.out.println("Successfully deleted " + rows + " Course");
+            logger.info("Successfully deleted " + rows + " Course");
         } catch (SQLException e) {
             e.getMessage();
         }
@@ -338,7 +338,7 @@ public class CourseDaoImplement {
             stmt.setInt(2, courseId);
             stmt.setString(3, gradeLetter);
             int rows = stmt.executeUpdate();
-            System.out.println("Successfully added " + rows + " Course");
+            logger.info("Successfully added " + rows + " Course");
         } catch (SQLException e) {
             e.getMessage();
         }
@@ -359,7 +359,7 @@ public class CourseDaoImplement {
             stmt.setInt(1, studentId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                //System.out.println(rs.getInt(1));
+                //logger.info(rs.getInt(1));
                 Grade grade = new Grade(studentId, rs.getInt(1), rs.getString(2).charAt(0));
                 gradeList.add(grade);
             }
@@ -396,7 +396,7 @@ public class CourseDaoImplement {
         } catch (SQLException ex) {
             ex.getMessage();
         }
-        //System.out.println(requestedCoursesList.size());
+        //logger.info(requestedCoursesList.size());
         return requestedCoursesList;
     }
 
@@ -412,13 +412,13 @@ public class CourseDaoImplement {
                 int studentId = rs.getInt(2);
                 int courseFlag = rs.getInt(3);
                 RequestedCourse requestedCourse = new RequestedCourse(courseId, studentId, courseFlag == 1);
-                System.out.println(requestedCourse.getCourseId());
+                logger.info(requestedCourse.getCourseId());
                 requestedCourseList.add(requestedCourse);
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return requestedCourseList;
     }

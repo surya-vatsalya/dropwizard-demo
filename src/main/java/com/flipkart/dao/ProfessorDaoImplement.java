@@ -66,7 +66,7 @@ public class ProfessorDaoImplement implements ProfessorDaoInterface {
             }
 
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         }
 
         return professor;
@@ -91,9 +91,9 @@ public class ProfessorDaoImplement implements ProfessorDaoInterface {
             }
 
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
         return username;

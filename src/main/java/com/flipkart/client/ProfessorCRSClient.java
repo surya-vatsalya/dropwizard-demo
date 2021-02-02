@@ -73,14 +73,14 @@ public class ProfessorCRSClient {
      * Displays available choices to the professor
      */
     public void showChoices() {
-        System.out.println(StatementConstants.Choice);
-        System.out.println(StatementConstants.ViewCourses);
-        System.out.println(StatementConstants.ViewAssignedCourse);
-        //System.out.println(Statements.ChooseCourse);
-        System.out.println(StatementConstants.ViewStudents);
-        System.out.println(StatementConstants.AssignGrades);
-        System.out.println("5. " + StatementConstants.showNotification);
-        System.out.println("6. Logout");
+        logger.info(StatementConstants.Choice);
+        logger.info(StatementConstants.ViewCourses);
+        logger.info(StatementConstants.ViewAssignedCourse);
+        //logger.info(Statements.ChooseCourse);
+        logger.info(StatementConstants.ViewStudents);
+        logger.info(StatementConstants.AssignGrades);
+        logger.info("5. " + StatementConstants.showNotification);
+        logger.info("6. Logout");
     }
 
     /**
@@ -89,12 +89,12 @@ public class ProfessorCRSClient {
     public void viewCourses() {
         List<Course> courses = professorOperation.viewCourses();
         for (Course course : courses) {
-            System.out.println("Course ID: " + course.getCourseId());
-            System.out.println("Course Name: " + course.getName());
-            System.out.println("Department: "+ course.getDepartment());
-            System.out.println("Course Fees: "+ course.getFees());
-            System.out.println("Professor Id: "+ course.getProfessorId());
-            System.out.println();
+            logger.info("Course ID: " + course.getCourseId());
+            logger.info("Course Name: " + course.getName());
+            logger.info("Department: "+ course.getDepartment());
+            logger.info("Course Fees: "+ course.getFees());
+            logger.info("Professor Id: "+ course.getProfessorId());
+            logger.info(" ");
         }
     }
 
@@ -104,11 +104,11 @@ public class ProfessorCRSClient {
     private void viewAssignedCourses() {
         List<Course> assignedCourseList = professorOperation.viewAssignedCourses();
         for (Course course : assignedCourseList) {
-            System.out.println("Course ID: " + course.getCourseId());
-            System.out.println("Course Name: " + course.getName());
-            System.out.println("Department: "+ course.getDepartment());
-            System.out.println("Course Fees: "+ course.getFees());
-            System.out.println();
+            logger.info("Course ID: " + course.getCourseId());
+            logger.info("Course Name: " + course.getName());
+            logger.info("Department: "+ course.getDepartment());
+            logger.info("Course Fees: "+ course.getFees());
+            logger.info(" ");
 
         }
     }
@@ -118,24 +118,24 @@ public class ProfessorCRSClient {
      * Uses Course Id to view Students registered in that course
      */
     public void viewStudents() {
-        System.out.println(StatementConstants.CIdToView);
+        logger.info(StatementConstants.CIdToView);
         int courseId = Integer.parseInt(sc.nextLine());
         List<Student> studentList = null;
         try {
             studentList = professorOperation.viewStudents(courseId);
         } catch (CourseNotAccesibleException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         if (studentList == null) {
             return;
         }
-        System.out.println("The List of Students enrolled in " + courseId + " taught by you are: ");
+        logger.info("The List of Students enrolled in " + courseId + " taught by you are: ");
         for (Student student : studentList) {
-            System.out.println("Student Id: " + student.getStudentId());
-            System.out.println("Name: " + student.getName());
-            System.out.println("Branch: " + student.getBranch());
-            System.out.println("Semester: " + student.getSemester());
-            System.out.println("Gender: " + student.getGender() + "\n");
+            logger.info("Student Id: " + student.getStudentId());
+            logger.info("Name: " + student.getName());
+            logger.info("Branch: " + student.getBranch());
+            logger.info("Semester: " + student.getSemester());
+            logger.info("Gender: " + student.getGender() + "\n");
         }
     }
 
@@ -143,17 +143,17 @@ public class ProfessorCRSClient {
      * Uses course id and student id to assign grade to the student enrolled in that course
      */
     private void assignGrades() {
-        System.out.println(StatementConstants.CId);
+        logger.info(StatementConstants.CId);
         int courseId = Integer.parseInt(sc.next());
-        System.out.println(StatementConstants.SId);
+        logger.info(StatementConstants.SId);
         int studentId = Integer.parseInt(sc.next());
-        System.out.println(StatementConstants.ScoreForCourse);
+        logger.info(StatementConstants.ScoreForCourse);
         char gradeLetter = sc.next().charAt(0);
         Grade newGrade = new Grade(studentId, courseId, gradeLetter);
         try {
             professorOperation.assignGrades(newGrade);
         } catch (CourseNotAccesibleException | StudentNotFoundException | RepeatException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
     }
@@ -167,7 +167,7 @@ public class ProfessorCRSClient {
         int count = 0;
         for (Notification notification : notificationList) {
             count++;
-            System.out.println(count + ". -> " + notification.getNotificationText());
+            logger.info(count + ". -> " + notification.getNotificationText());
         }
     }
 

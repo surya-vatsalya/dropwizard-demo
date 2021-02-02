@@ -60,7 +60,7 @@ public class StudentDaoImplement implements StudentDaoInterface {
                 student = new Student(rs.getString(3), rs.getInt(1), rs.getString(5), rs.getString(4), rs.getInt(6));
             }
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         }
 
         return student;
@@ -87,9 +87,9 @@ public class StudentDaoImplement implements StudentDaoInterface {
             }
 
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
         return username;
@@ -134,11 +134,11 @@ public class StudentDaoImplement implements StudentDaoInterface {
             notifyText = notifyText + totalFees;
             stmtNotify.setString(2, notifyText);
             int rows = stmtNotify.executeUpdate();
-            System.out.println(notifyText);
+            logger.info(notifyText);
         } catch (SQLException se) {
-            System.out.println(se.getMessage());
+            logger.info(se.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
 
     }

@@ -8,6 +8,7 @@ import com.flipkart.service.StudentInterface;
 import com.flipkart.service.StudentOperation;
 import com.flipkart.service.UserInterface;
 import com.flipkart.service.UserOperation;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -32,6 +33,8 @@ import java.util.List;
  */
 @Path("studentcontroller/{studentId}")
 public class StudentController {
+
+    private static Logger logger = Logger.getLogger(StudentController.class);
 
     /**
      * Get method used to view courses present in catalog
@@ -237,7 +240,7 @@ public class StudentController {
     public Response showNotifications(
             @NotNull(message = "Username cannot be null")
             @QueryParam("username") String username) {
-        System.out.println(username);
+        logger.info(username);
         UserInterface userOperation = new UserOperation();
         List<Notification> notificationList = userOperation.showNotifications(username);
         int count = 0;

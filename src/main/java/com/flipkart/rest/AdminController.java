@@ -217,8 +217,8 @@ public class AdminController {
             @NotNull(message = "CourseID cannot be null")
             @FormParam("courseId") int courseId) {
         String res = "";
-        System.out.println(studentId);
-        System.out.println(courseId);
+        logger.info(studentId);
+        logger.info(courseId);
         try {
             adminOperation.AssignStudentToCourse(studentId, courseId);
             res = "Assigned " + studentId + " to " + courseId;
@@ -299,7 +299,7 @@ public class AdminController {
     @Path("/notifications")
     @Produces(MediaType.APPLICATION_JSON)
     public Response showNotifications(@NotNull(message = "Userame cannot be null") @QueryParam("username") String username) {
-        System.out.println(username);
+        logger.info(username);
         List<Notification> notificationList = userOperation.showNotifications(username);
         int count = 0;
         JSONArray jsonArray = new JSONArray();
