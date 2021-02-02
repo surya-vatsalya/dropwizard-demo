@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Professor Controller class
  */
-@Path("/professorcontroller")
+@Path("/professorcontroller/{professorid}")
 public class ProfessorController {
 
     /**
@@ -35,7 +35,7 @@ public class ProfessorController {
      * @return json string with course id and course name
      */
     @GET
-    @Path("/coursecatalog/{professorid}")
+    @Path("/course-catalog")
     @Produces(MediaType.APPLICATION_JSON)
     public String viewCourses(@PathParam("professorid")
                               @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
@@ -63,7 +63,7 @@ public class ProfessorController {
      * @return json string with course id and course name
      */
     @GET
-    @Path("viewassignedcourses/{professorid}")
+    @Path("view-assigned-courses")
     @Produces(MediaType.APPLICATION_JSON)
     public String viewAssignedCourses(@PathParam("professorid")
                                       @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
@@ -89,7 +89,7 @@ public class ProfessorController {
      * @return json string with student id, name, gender, semester and branch
      */
     @GET
-    @Path("viewstudents/{professorid}/{courseid}")
+    @Path("view-student-in-course/{courseid}")
     @Produces(MediaType.APPLICATION_JSON)
     public String viewStudents(@PathParam("professorid")
                                @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
@@ -132,14 +132,14 @@ public class ProfessorController {
      * @throws RepeatException if course is already assigned to a Professor
      */
     @POST
-    @Path("/choose-course/{courseId}/{professorId}")
+    @Path("/choose-course/{courseId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response chooseCourses(@PathParam("courseId")
                                   @DecimalMin(value = "101", message = "Course ID range starts from 101.")
                                   @DecimalMax(value = "199", message = "Course ID range till 199 only.")
                                   @NotNull(message = "CourseID cannot be null")
                                           int courseId,
-                                  @PathParam("professorId")
+                                  @PathParam("professorid")
                                   @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                   @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                   @NotNull(message = "ProfessorID cannot be null")
@@ -163,24 +163,25 @@ public class ProfessorController {
      * @throws StudentNotFoundException if student is not enrolled in particular course
      */
     @POST
-    @Path("/assign-grade/{courseId}/{professorId}/{studentId}/{score}")
+    @Path("/assign-grade")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response assignGrades(@PathParam("courseId")
-                                 @DecimalMin(value = "101", message = "Course ID range starts from 101.")
-                                 @DecimalMax(value = "199", message = "Course ID range till 199 only.")
-                                 @NotNull(message = "CourseID cannot be null")
-                                         int courseId,
-                                 @PathParam("professorId")
+    public Response assignGrades(
+                                @PathParam("professorid")
                                  @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                  @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                  @NotNull(message = "ProfessorID cannot be null")
-                                         int professorId,
-                                 @PathParam("studentId")
+                                 int professorId,
+                                 @FormParam("courseId")
+                                 @DecimalMin(value = "101", message = "Course ID range starts from 101.")
+                                 @DecimalMax(value = "199", message = "Course ID range till 199 only.")
+                                 @NotNull(message = "CourseID cannot be null")
+                                 int courseId,
+                                 @FormParam("studentId")
                                  @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
                                  @DecimalMax(value = "399", message = "Students ID range till 399 only.")
                                  @NotNull(message = "StudentID cannot be null")
-                                         int studentId,
-                                 @PathParam("score")
+                                 int studentId,
+                                 @FormParam("score")
                                  @NotNull(message = "score cannot be null")
                                          String score)
             throws RepeatException,CourseNotAccesibleException, StudentNotFoundException {
