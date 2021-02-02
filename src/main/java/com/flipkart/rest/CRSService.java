@@ -5,9 +5,9 @@ import io.dropwizard.Configuration;
 import io.dropwizard.setup.Environment;
 
 
-public class SampleService extends Application<Configuration> {
+public class CRSService extends Application<Configuration> {
     public static void main(String[] args) throws Exception {
-        new SampleService().run(args);
+        new CRSService().run(args);
     }
 
     @Override

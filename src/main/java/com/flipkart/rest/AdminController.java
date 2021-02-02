@@ -43,7 +43,7 @@ public class AdminController {
      * @return response object with the status and json string with course id and course name
      */
     @GET
-    @Path("/coursecatalog")
+    @Path("/course-catalog")
     @Produces(MediaType.APPLICATION_JSON)
     public Response viewCourses() {
         List<Course> courseList = adminOperation.viewCoursesInCatalog();
@@ -63,7 +63,7 @@ public class AdminController {
      * @return response object with the status and json string with message
      */
     @POST
-    @Path("/addcourse")
+    @Path("/add-course")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCourse(Course course) {
         String res = "";
@@ -82,7 +82,7 @@ public class AdminController {
      * @return response object with the status and json string with message
      */
     @DELETE
-    @Path("/deletecourse/{courseId}")
+    @Path("/delete-course/{courseId}")
     public Response deleteCourse(
             @DecimalMin(value = "101", message = "Course ID range starts from 101.")
             @DecimalMax(value = "199", message = "Course ID range till 199 only.")
@@ -103,7 +103,7 @@ public class AdminController {
      * @return response object with the status and json string with message
      */
     @POST
-    @Path("/addprofessor")
+    @Path("/add-professor")
     public Response addProfessor(
             @DecimalMin(value = "201", message = "Course ID range starts from 201.")
             @DecimalMax(value = "299", message = "Course ID range till 299 only.")
@@ -131,7 +131,7 @@ public class AdminController {
      * @return response object with the status and json string with message
      */
     @DELETE
-    @Path("/dropprofessor/{username}")
+    @Path("/delete-professor/{username}")
     public Response dropProfessor(@NotNull(message = "Username cannot be null") @PathParam("username") String username) {
         String result = adminOperation.dropProfessor(username);
         return Response.status(200).entity(result).build();
@@ -144,7 +144,7 @@ public class AdminController {
      * @return response object with the status and json string with student id, name, branch, semester and gender
      */
     @GET
-    @Path("/students/{courseId}")
+    @Path("/view-student-in-course/{courseId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response viewStudentsInCourse(
             @DecimalMin(value = "101", message = "Course ID range starts from 101.")
@@ -173,7 +173,7 @@ public class AdminController {
      * @return response object with the status and json string with message
      */
     @POST
-    @Path("/assigncourse")
+    @Path("/approve-student-in-course")
     public Response assignCourseToStudent(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Students ID range till 399 only.")

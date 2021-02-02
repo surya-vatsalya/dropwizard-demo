@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Student Controller class
  */
-@Path("studentcontroller")
+@Path("studentcontroller/{studentId}")
 public class StudentController {
 
     /**
@@ -41,9 +41,15 @@ public class StudentController {
      * @return json string with course id and course name
      */
     @GET
-    @Path("/coursecatalog")
+    @Path("/course-catalog")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewCourses() {
+    public String viewCourses(
+            @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
+            @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
+            @NotNull(message = "StudentID cannot be null")
+            @PathParam("studentId") int studentId
+    )
+    {
         StudentInterface studentOperation = new StudentOperation(1);
         List<Course> courseList = studentOperation.viewCourses();
         JSONArray jsonArray = new JSONArray();
@@ -64,14 +70,13 @@ public class StudentController {
      * @return json string with course id and course name
      */
     @GET
-    @Path("/view-registered/{id}")
+    @Path("/view-registered-courses")
     @Produces(MediaType.APPLICATION_JSON)
     public String getRegisteredCourses(
-            @Valid
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
-            @PathParam("id") int id) throws ValidationException {
+            @PathParam("studentId") int id) throws ValidationException {
         StudentInterface studentOperation = new StudentOperation(id);
         List<Course> registeredCourses = studentOperation.viewAssignedCourses();
         JSONArray jsonArray = new JSONArray();
@@ -91,13 +96,13 @@ public class StudentController {
      * @return json string with course id and flag isPrimary denoting whether course is primary or not
      */
     @GET
-    @Path("/view-requested/{id}")
+    @Path("/view-requested-courses")
     @Produces(MediaType.APPLICATION_JSON)
     public String getRequestedCourses(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
-            @PathParam("id") int id) {
+            @PathParam("studentId") int id) {
         StudentInterface studentOperation = new StudentOperation(id);
         List<RequestedCourse> requestedCourse = studentOperation.viewRequestedCourses();
         JSONArray jsonArray = new JSONArray();
@@ -118,13 +123,13 @@ public class StudentController {
      * @return json string with course id and grade letter
      */
     @GET
-    @Path("view-reportcard/{id}")
+    @Path("view-reportcard")
     @Produces(MediaType.APPLICATION_JSON)
     public String viewReportCard(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "Student ID cannot be null")
-            @PathParam("id") int id) {
+            @PathParam("studentId") int id) {
         StudentInterface studentOperation = new StudentOperation(id);
         List<Grade> gradeList = studentOperation.viewReportCard();
         JSONArray jsonArray = new JSONArray();
@@ -142,29 +147,29 @@ public class StudentController {
      *
      * @param studentId unique identifer of student
      * @param courseId unique identifier of course
-     * @param isTrue flag denoting whether course can be chosen or not
+     * @param isPrimary flag denoting whether course can be chosen or not
      * @return response object with the status and json string with message
      * @throws RepeatException if course is already taken by student
      * @throws LimitExceededException if student limit for a course is exceeded
      */
     @POST
-    @Path("/add-course/")
+    @Path("/request-course/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addCourses(
             @Valid
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Students ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
-            @FormParam("studentId") int studentId,
+            @PathParam("studentId") int studentId,
             @DecimalMin(value = "101", message = "Course ID range starts from 101.")
             @DecimalMax(value = "199", message = "Course ID range till 199 only.")
             @NotNull(message = "CourseID cannot be null")
             @FormParam("courseId") int courseId,
             @NotNull(message = "isTrue flag cannot be null")
-            @FormParam("isTrue") int isTrue) throws ValidationException, RepeatException, LimitExceededException {
+            @FormParam("isPrimary") int isPrimary) throws ValidationException, RepeatException, LimitExceededException {
         String result = "Saved "  + courseId + "to "+ studentId;
         StudentInterface studentOperation = new StudentOperation(studentId);
-        studentOperation.chooseCourse(courseId, isTrue > 0? true:false);
+        studentOperation.chooseCourse(courseId, isPrimary > 0? true:false);
         return Response.status(201).entity(result).build();
     }
 
@@ -201,7 +206,7 @@ public class StudentController {
      * @throws CourseNotFoundException if student is not assigned that course
      */
     @DELETE
-    @Path("/delete-course/{studentId}/")
+    @Path("/delete-course")
     public Response deleteAssignedCourse(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Students ID range till 399 only.")
