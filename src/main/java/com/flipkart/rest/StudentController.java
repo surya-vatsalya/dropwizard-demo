@@ -1,9 +1,6 @@
 package com.flipkart.rest;
 
-import com.flipkart.bean.Course;
-import com.flipkart.bean.Grade;
-import com.flipkart.bean.Notification;
-import com.flipkart.bean.RequestedCourse;
+import com.flipkart.bean.*;
 import com.flipkart.exception.CourseNotFoundException;
 import com.flipkart.exception.LimitExceededException;
 import com.flipkart.exception.RepeatException;
@@ -19,6 +16,7 @@ import javax.validation.ValidationException;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
