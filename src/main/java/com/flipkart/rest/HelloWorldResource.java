@@ -8,8 +8,7 @@ import javax.ws.rs.PathParam;
 public class HelloWorldResource {
 
     @GET
-    public String HelloWorld(@PathParam("name") String name)
-    {
-        return "Hello "+name+"!";
+    public String HelloWorld(@PathParam("name") String name) {
+        return "Hello " + name + "!";
     }
 }

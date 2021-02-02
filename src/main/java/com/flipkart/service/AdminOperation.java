@@ -13,7 +13,6 @@ import com.flipkart.exception.LimitExceededException;
 import com.flipkart.exception.RepeatException;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,7 +117,7 @@ public class AdminOperation extends UserOperation implements AdminInterface {
      * Assigns course to a Professor and throws RepeatException if the course is already assigned
      *
      * @param professorId unique identifier of professor used for assigning course
-     * @param courseId unique identifier of course which is assigned to a professor
+     * @param courseId    unique identifier of course which is assigned to a professor
      */
     @Override
     public void assignProfessorToCourse(int professorId, int courseId) throws RepeatException {
@@ -143,7 +142,7 @@ public class AdminOperation extends UserOperation implements AdminInterface {
     }
 
     @Override
-    public String getAdminUsername(){
+    public String getAdminUsername() {
         return adminDaoImplement.getAdminUsername(this.adminId);
     }
 
@@ -154,7 +153,7 @@ public class AdminOperation extends UserOperation implements AdminInterface {
      * @return
      */
     @Override
-    public List<RequestedCourse> getAllRequestedCourses(){
+    public List<RequestedCourse> getAllRequestedCourses() {
         return courseDaoImplement.getAllRequestedCourses();
     }
 
@@ -164,7 +163,7 @@ public class AdminOperation extends UserOperation implements AdminInterface {
      * @return
      */
     @Override
-    public List<Professor> getAllProfessors(){
+    public List<Professor> getAllProfessors() {
         return professorDaoImplement.getAllProfessors();
     }
 
@@ -175,7 +174,7 @@ public class AdminOperation extends UserOperation implements AdminInterface {
      * @return
      */
     @Override
-    public List<Student> getAllStudents(){
+    public List<Student> getAllStudents() {
         return studentDaoImplement.getAllStudents();
     }
 

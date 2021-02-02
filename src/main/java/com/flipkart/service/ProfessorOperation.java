@@ -146,11 +146,10 @@ public class ProfessorOperation extends UserOperation implements ProfessorInterf
     }
 
     /**
-     *
      * @return returns username
      */
     @Override
-    public String getProfessorUsername(){
+    public String getProfessorUsername() {
         return professorDaoImplement.getProfessorUsername(this.professorId);
     }
 }

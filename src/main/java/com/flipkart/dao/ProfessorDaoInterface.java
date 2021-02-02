@@ -1,7 +1,5 @@
 package com.flipkart.dao;
 
-import com.flipkart.bean.Professor;
-
 /**
  * @author JEDI05
  */

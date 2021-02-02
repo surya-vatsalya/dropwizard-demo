@@ -25,13 +25,13 @@ public class StudentDaoImplement implements StudentDaoInterface {
     Connection conn = DBUtils.getConnection();
 
 
-    private StudentDaoImplement(){
+    private StudentDaoImplement() {
         // pass
     }
 
 
-    public static StudentDaoImplement getInstance(){
-        if(singleton == null){
+    public static StudentDaoImplement getInstance() {
+        if (singleton == null) {
             singleton = new StudentDaoImplement();
         }
         return singleton;
@@ -101,13 +101,13 @@ public class StudentDaoImplement implements StudentDaoInterface {
      *
      * @return
      */
-    public List<Student> getAllStudents(){
+    public List<Student> getAllStudents() {
         PreparedStatement stmt = null;
         List<Student> studentList = new ArrayList<>();
-        try{
+        try {
             stmt = conn.prepareStatement("SELECT * from studentdetails");
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int studentId = rs.getInt(2);
                 String name = rs.getString(3);
                 String gender = rs.getString(4);

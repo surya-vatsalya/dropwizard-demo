@@ -5,7 +5,6 @@ import com.flipkart.bean.Grade;
 import com.flipkart.bean.Notification;
 import com.flipkart.bean.Student;
 import com.flipkart.constant.StatementConstants;
-import com.flipkart.dao.ProfessorDaoImplement;
 import com.flipkart.exception.CourseNotAccesibleException;
 import com.flipkart.exception.RepeatException;
 import com.flipkart.exception.StudentNotFoundException;
@@ -29,6 +28,7 @@ public class ProfessorCRSClient {
     private static int professorId;
     private ProfessorInterface professorOperation;
     private UserOperation userOperation = new UserOperation();
+
     public ProfessorCRSClient(int professorId) {
         this.professorId = professorId;
         professorOperation = new ProfessorOperation(this.professorId);

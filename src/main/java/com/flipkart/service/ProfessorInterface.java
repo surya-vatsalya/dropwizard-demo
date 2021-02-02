@@ -55,7 +55,6 @@ public interface ProfessorInterface extends UserInterface {
     public void chooseCourse(int courseId) throws RepeatException;
 
     /**
-     *
      * @return returns username
      */
     public String getProfessorUsername();

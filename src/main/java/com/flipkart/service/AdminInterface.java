@@ -22,7 +22,7 @@ public interface AdminInterface extends UserInterface {
      * Assigns course to a Professor and throws RepeatException if the course is already assigned
      *
      * @param professorId unique identifier of professor used for assigning course
-     * @param courseId unique identifier of course which is assigned to a professor
+     * @param courseId    unique identifier of course which is assigned to a professor
      */
     public void assignProfessorToCourse(int professorId, int courseId) throws RepeatException;
 

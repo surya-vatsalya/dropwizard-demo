@@ -19,20 +19,20 @@ import java.util.List;
  */
 
 /**
- *  UserDaoImplement class
+ * UserDaoImplement class
  */
 public class UserDaoImplement {
     private static Logger logger = Logger.getLogger(UserDaoImplement.class);
     private static UserDaoImplement singleton;
     static Connection connection = DBUtils.getConnection();
 
-    private UserDaoImplement(){
+    private UserDaoImplement() {
         // pass
     }
 
 
-    public static UserDaoImplement getInstance(){
-        if(singleton == null){
+    public static UserDaoImplement getInstance() {
+        if (singleton == null) {
             singleton = new UserDaoImplement();
         }
         return singleton;

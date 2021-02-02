@@ -29,13 +29,13 @@ public class ProfessorDaoImplement implements ProfessorDaoInterface {
     Connection conn = DBUtils.getConnection();
 
 
-    private ProfessorDaoImplement(){
+    private ProfessorDaoImplement() {
         // pass
     }
 
 
-    public static ProfessorDaoImplement getInstance(){
-        if(singleton == null){
+    public static ProfessorDaoImplement getInstance() {
+        if (singleton == null) {
             singleton = new ProfessorDaoImplement();
         }
         return singleton;
@@ -104,13 +104,13 @@ public class ProfessorDaoImplement implements ProfessorDaoInterface {
      *
      * @return
      */
-    public List<Professor> getAllProfessors(){
+    public List<Professor> getAllProfessors() {
         PreparedStatement stmt = null;
         List<Professor> professorList = new ArrayList<>();
-        try{
+        try {
             stmt = conn.prepareStatement("SELECT * from professordetails");
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int professorId = rs.getInt(2);
                 String name = rs.getString(3);
                 String gender = rs.getString(4);

@@ -6,7 +6,6 @@ import com.flipkart.constant.StatementConstants;
 import com.flipkart.util.DBUtils;
 import org.apache.log4j.Logger;
 
-import javax.sound.midi.SysexMessage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,17 +27,16 @@ public class CourseDaoImplement {
     static Connection conn = DBUtils.getConnection();
 
 
-    private CourseDaoImplement(){
+    private CourseDaoImplement() {
         // pass
     }
 
 
     /**
-     *
      * @return singlton instance of class CourseDaoImplement
      */
-    public static CourseDaoImplement getInstance(){
-        if(singleton == null){
+    public static CourseDaoImplement getInstance() {
+        if (singleton == null) {
             singleton = new CourseDaoImplement();
         }
         return singleton;
@@ -236,7 +234,7 @@ public class CourseDaoImplement {
      * Assigning requested course to student
      *
      * @param studentId unique identifier of student used for assigning requested course to student
-     * @param courseId unique identifier of course used for assigning requested course to student
+     * @param courseId  unique identifier of course used for assigning requested course to student
      */
     public void assignStudentToCourse(int studentId, int courseId) {
         PreparedStatement stmt = null;
@@ -404,13 +402,13 @@ public class CourseDaoImplement {
     }
 
 
-    public List<RequestedCourse> getAllRequestedCourses(){
+    public List<RequestedCourse> getAllRequestedCourses() {
         PreparedStatement stmt = null;
         List<RequestedCourse> requestedCourseList = new ArrayList<>();
-        try{
+        try {
             stmt = conn.prepareStatement("Select * from requestedcourses");
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 int courseId = rs.getInt(1);
                 int studentId = rs.getInt(2);
                 int courseFlag = rs.getInt(3);
@@ -418,9 +416,9 @@ public class CourseDaoImplement {
                 System.out.println(requestedCourse.getCourseId());
                 requestedCourseList.add(requestedCourse);
             }
-        } catch (SQLException se){
+        } catch (SQLException se) {
             System.out.println(se.getMessage());
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return requestedCourseList;

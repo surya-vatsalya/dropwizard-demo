@@ -156,6 +156,7 @@ public class StudentOperation extends UserOperation implements StudentInterface 
 
     /**
      * Notifies for payment of course
+     *
      * @param totalFees of courses student has enrolled in
      */
     @Override
@@ -165,7 +166,7 @@ public class StudentOperation extends UserOperation implements StudentInterface 
     }
 
     @Override
-    public String getStudentUsername(){
+    public String getStudentUsername() {
         return studentDaoImplement.getStudentUsername(this.studentId);
     }
 

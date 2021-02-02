@@ -46,8 +46,7 @@ public class StudentController {
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
             @PathParam("studentId") int studentId
-    )
-    {
+    ) {
         StudentInterface studentOperation = new StudentOperation(1);
         List<Course> courseList = studentOperation.viewCourses();
         JSONArray jsonArray = new JSONArray();
@@ -133,7 +132,7 @@ public class StudentController {
         StudentInterface studentOperation = new StudentOperation(id);
         List<Grade> gradeList = studentOperation.viewReportCard();
         JSONArray jsonArray = new JSONArray();
-        for (Grade grade: gradeList) {
+        for (Grade grade : gradeList) {
             JSONObject gradeJson = new JSONObject();
             gradeJson.put("Course Id", grade.getCourseId());
             gradeJson.put("Grade Letter", grade.getGradeLetter());
@@ -146,10 +145,10 @@ public class StudentController {
      * Post method that allows student to choose courses from the catalog
      *
      * @param studentId unique identifer of student
-     * @param courseId unique identifier of course
+     * @param courseId  unique identifier of course
      * @param isPrimary flag denoting whether course can be chosen or not
      * @return response object with the status and json string with message
-     * @throws RepeatException if course is already taken by student
+     * @throws RepeatException        if course is already taken by student
      * @throws LimitExceededException if student limit for a course is exceeded
      */
     @POST
@@ -167,10 +166,10 @@ public class StudentController {
             @FormParam("courseId") int courseId,
             @NotNull(message = "isTrue flag cannot be null")
             @FormParam("isPrimary") int isPrimary) throws ValidationException {
-        String result = "Saved "  + courseId + "to "+ studentId;
+        String result = "Saved " + courseId + "to " + studentId;
         StudentInterface studentOperation = new StudentOperation(studentId);
         try {
-            studentOperation.chooseCourse(courseId, isPrimary > 0? true:false);
+            studentOperation.chooseCourse(courseId, isPrimary > 0 ? true : false);
         } catch (RepeatException | LimitExceededException e) {
             return Response.status(400).entity(e.getMessage()).build();
         }
@@ -182,7 +181,7 @@ public class StudentController {
      *
      * @param studentId unique identifier of student
      * @return response object with the status and json string with message
-     * @throws RepeatException if course fees is already paid
+     * @throws RepeatException        if course fees is already paid
      * @throws LimitExceededException if student limit for a course is exceeded
      */
     @POST
@@ -192,8 +191,7 @@ public class StudentController {
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Students ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
-            @FormParam("studentId") int studentId)
-    {
+            @FormParam("studentId") int studentId) {
         StudentInterface studentOperation = new StudentOperation(studentId);
         int totalFees = studentOperation.getFees();
         String result = "Fees for Student ID " + studentId + " recorded amounting total " + totalFees;
@@ -205,9 +203,9 @@ public class StudentController {
      * Delete method that removes assigned courses of student
      *
      * @param studentId unique identifier of student
-     * @param courseId unique identifier of course
+     * @param courseId  unique identifier of course
      * @return repsonse object with the status and json string with course id and student id
-     * @throws URIReferenceException if wrong URI referred
+     * @throws URIReferenceException   if wrong URI referred
      * @throws CourseNotFoundException if student is not assigned that course
      */
     @DELETE
@@ -223,7 +221,7 @@ public class StudentController {
             @QueryParam("courseId") int courseId) throws URIReferenceException, CourseNotFoundException {
         StudentInterface studentOperation = new StudentOperation(studentId);
         studentOperation.dropCourse(courseId);
-        return Response.status(200).entity("The course " + courseId + " for student " + studentId + " deleted" ).build();
+        return Response.status(200).entity("The course " + courseId + " for student " + studentId + " deleted").build();
     }
 
 
@@ -238,8 +236,7 @@ public class StudentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response showNotifications(
             @NotNull(message = "Username cannot be null")
-            @QueryParam("username") String username)
-    {
+            @QueryParam("username") String username) {
         System.out.println(username);
         UserInterface userOperation = new UserOperation();
         List<Notification> notificationList = userOperation.showNotifications(username);
@@ -257,7 +254,8 @@ public class StudentController {
 
 
     /**
-     *  Method to register student
+     * Method to register student
+     *
      * @param studentId
      * @param name
      * @param gender
@@ -269,11 +267,12 @@ public class StudentController {
      */
     @POST
     @Path("/register-student")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response addStudent(
             @DecimalMin(value = "301", message = "Course ID range starts from 301.")
             @DecimalMax(value = "399", message = "Course ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
-            @FormParam("studentId") int studentId,
+            @PathParam("studentId") int studentId,
             @NotNull(message = "Name cannot be null")
             @Size(min = 3, max = 25, message = "Name should be between 3 and 25")
             @FormParam("name") String name,
@@ -291,7 +290,7 @@ public class StudentController {
         Student student = new Student(name, studentId, gender, branch, semester);
         UserInterface userOperation = new UserOperation();
         Boolean studentRegistered = userOperation.registerStudent(student, username, password);
-        res = studentRegistered ? "Student was Registered sucessfully!": "Student not registered, please try again later";
+        res = studentRegistered ? "Student was Registered sucessfully!" : "Student not registered, please try again later";
         return Response.status(201).entity(res).build();
     }
 

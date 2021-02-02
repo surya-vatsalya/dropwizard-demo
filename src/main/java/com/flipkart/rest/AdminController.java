@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.print.attribute.standard.Media;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -75,10 +74,9 @@ public class AdminController {
 //        }
 //        return Response.status(201).entity(res).build();
 //    }
-
     @POST
     @Path("/add-course")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response addCourse(
             @DecimalMin(value = "101", message = "Course ID range starts from 101.")
             @DecimalMax(value = "199", message = "Course ID range till 199 only.")
@@ -88,27 +86,29 @@ public class AdminController {
             @DecimalMax(value = "299", message = "Course ID range till 299 only.")
             @NotNull(message = "ProfessorID cannot be null")
             @FormParam("professorId") int professorId,
-            @Size(min = 1, max=25, message = "size should be between 1 and 25")
+            @Size(min = 1, max = 25, message = "size should be between 1 and 25")
             @NotNull(message = "courseName cannot be null")
             @FormParam("courseName") String courseName,
-            @Size(min = 1, max=25, message = "size should be between 1 and 20")
+            @Size(min = 1, max = 25, message = "size should be between 1 and 20")
             @NotNull(message = "department cannot be null")
             @FormParam("department") String department,
             @DecimalMin(value = "100", message = "Minimum Fees is 100")
             @DecimalMax(value = "999", message = "Maximum Fees is 999")
-            @NotNull(message = "Fees cant be null") int fees
+            @NotNull(message = "Fees cant be null")
+            @FormParam("fees") int fees
     ) {
         String res = "";
         try {
 
-            Course newCourse = new Course(courseName,courseId,professorId,department,fees);
+            Course newCourse = new Course(courseName, courseId, professorId, department, fees);
             adminOperation.addCourseInCatalog(newCourse);
-            res = "Successfully added: " + newCourse;
+            res = "Successfully added: " + newCourse.getName();
         } catch (RepeatException e) {
             res = e.getMessage();
         }
         return Response.status(201).entity(res).build();
     }
+
     /**
      * Delete method that uses course id to delete a particular course
      *
@@ -129,10 +129,10 @@ public class AdminController {
      * Post method which uses professor details for adding professor
      *
      * @param professorId unique identifier of professor used for adding professor
-     * @param name professor name
-     * @param gender professor gender
-     * @param username professor username
-     * @param password professor passowrd
+     * @param name        professor name
+     * @param gender      professor gender
+     * @param username    professor username
+     * @param password    professor passowrd
      * @return response object with the status and json string with message
      */
     @POST
@@ -153,7 +153,7 @@ public class AdminController {
             @FormParam("password") String password) {
         String res = "";
         Professor professor = new Professor(name, professorId, gender);
-        res=adminOperation.addProfessor(professor, username, password);
+        res = adminOperation.addProfessor(professor, username, password);
         return Response.status(201).entity(res).build();
     }
 
@@ -202,7 +202,7 @@ public class AdminController {
      * Post method that uses course Id and student Id to assign a particular course to a student
      *
      * @param studentId unique identifier of student
-     * @param courseId unique identifier of course
+     * @param courseId  unique identifier of course
      * @return response object with the status and json string with message
      */
     @POST
@@ -230,16 +230,15 @@ public class AdminController {
 
 
     /**
-     *
      * @return response object with the status and json string of RequestedCourse objects
      */
     @GET
     @Path("/get-all-course-requests")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllCourseRequests(){
+    public Response getAllCourseRequests() {
         List<RequestedCourse> requestedCourseList = adminOperation.getAllRequestedCourses();
         JSONArray jsonArray = new JSONArray();
-        for(RequestedCourse requestedCourse: requestedCourseList){
+        for (RequestedCourse requestedCourse : requestedCourseList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("studentId", requestedCourse.getStudentId());
             jsonObject.put("courseId", requestedCourse.getCourseId());
@@ -250,16 +249,15 @@ public class AdminController {
     }
 
     /**
-     *
      * @return response object with the status and json string of Professor objects
      */
     @GET
     @Path("/get-all-professors")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllProfessors(){
+    public Response getAllProfessors() {
         List<Professor> professorList = adminOperation.getAllProfessors();
         JSONArray jsonArray = new JSONArray();
-        for(Professor professor: professorList){
+        for (Professor professor : professorList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("ID", professor.getProfessorId());
             jsonObject.put("Name", professor.getName());
@@ -270,16 +268,15 @@ public class AdminController {
     }
 
     /**
-     *
      * @return response object with the status and json string of Student objects
      */
     @GET
     @Path("/get-all-students")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllStudents(){
+    public Response getAllStudents() {
         List<Student> studentList = adminOperation.getAllStudents();
         JSONArray jsonArray = new JSONArray();
-        for(Student student: studentList){
+        for (Student student : studentList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("ID", student.getStudentId());
             jsonObject.put("Name", student.getName());

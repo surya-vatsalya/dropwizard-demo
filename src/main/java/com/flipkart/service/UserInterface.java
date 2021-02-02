@@ -50,7 +50,6 @@ public interface UserInterface {
     public Boolean registerUser(String username, String password, String role);
 
     /**
-     *
      * @param username
      * @return List of Notifications
      */

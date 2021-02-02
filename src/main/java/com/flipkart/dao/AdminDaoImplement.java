@@ -3,7 +3,6 @@ package com.flipkart.dao;
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
-import com.flipkart.bean.Student;
 import com.flipkart.constant.SQLQueries;
 import com.flipkart.constant.StatementConstants;
 import com.flipkart.service.UserInterface;
@@ -15,8 +14,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author JEDI05
@@ -33,13 +30,13 @@ public class AdminDaoImplement implements AdminDaoInterface {
     UserInterface userOperation = new UserOperation();
 
 
-    private AdminDaoImplement(){
+    private AdminDaoImplement() {
         // pass
     }
 
 
-    public static AdminDaoImplement getInstance(){
-        if(singleton == null){
+    public static AdminDaoImplement getInstance() {
+        if (singleton == null) {
             singleton = new AdminDaoImplement();
         }
         return singleton;
@@ -180,11 +177,11 @@ public class AdminDaoImplement implements AdminDaoInterface {
     @Override
     public String addProfessor(Professor professor, String username, String password) {
         PreparedStatement stmt = null;
-        String res="";
+        String res = "";
         if (userExist(username)) {
-            res=StatementConstants.UserExists;
+            res = StatementConstants.UserExists;
         } else if (professorExist(professor.getProfessorId())) {
-            res=StatementConstants.ProfIdExists;
+            res = StatementConstants.ProfIdExists;
         } else {
             try {
                 Boolean result = userOperation.registerUser(username, password, "p");
@@ -194,11 +191,11 @@ public class AdminDaoImplement implements AdminDaoInterface {
                 stmt.setString(3, professor.getName());
                 stmt.setString(4, professor.getGender());
                 int rows = stmt.executeUpdate();
-                res="Successfully added " + rows + " Professor";
+                res = "Successfully added " + rows + " Professor";
             } catch (SQLException se) {
-                res=se.getMessage();
+                res = se.getMessage();
             } catch (Exception e) {
-                res=e.getMessage();
+                res = e.getMessage();
             }
         }
         return res;

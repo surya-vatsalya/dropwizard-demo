@@ -9,7 +9,6 @@ import com.flipkart.service.AdminOperation;
 import com.flipkart.service.UserOperation;
 import org.apache.log4j.Logger;
 
-import javax.swing.plaf.synth.SynthEditorPaneUI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -95,7 +94,7 @@ public class AdminCRSClient {
         System.out.println(StatementConstants.AddProfessor);
         System.out.println(StatementConstants.RemoveProfessor);
         System.out.println(StatementConstants.ViewStudentsInCourse);
-        System.out.println("8. "+StatementConstants.showNotification);
+        System.out.println("8. " + StatementConstants.showNotification);
         System.out.println("9. View All Course Requests");
         System.out.println("10. View all students");
         System.out.println("11. View all professors");
@@ -205,45 +204,44 @@ public class AdminCRSClient {
     }
 
 
-    public void getAllCourseRequests(){
+    public void getAllCourseRequests() {
         List<RequestedCourse> requestedCourseList = new ArrayList<>();
         System.out.println("All Course Requests : ");
         int count = 1;
-        for(RequestedCourse requestedCourse: requestedCourseList){
-            System.out.println(count+".");
-            System.out.println("Student Id: "+requestedCourse.getStudentId());
-            System.out.println("Course Id"+requestedCourse.getCourseId());
-            System.out.println(requestedCourse.isPrimary()? "Primary Choice":"Secondary Choice");
+        for (RequestedCourse requestedCourse : requestedCourseList) {
+            System.out.println(count + ".");
+            System.out.println("Student Id: " + requestedCourse.getStudentId());
+            System.out.println("Course Id" + requestedCourse.getCourseId());
+            System.out.println(requestedCourse.isPrimary() ? "Primary Choice" : "Secondary Choice");
             count++;
         }
     }
 
 
-    public void getAllProfessors(){
+    public void getAllProfessors() {
         List<Professor> professorList = new ArrayList<>();
         System.out.println("Professor List:\n");
-        for(Professor professor: professorList){
-            System.out.println("Professor Id: "+professor.getProfessorId());
-            System.out.println("Name: "+professor.getName());
-            System.out.println("Gender: "+professor.getGender());
+        for (Professor professor : professorList) {
+            System.out.println("Professor Id: " + professor.getProfessorId());
+            System.out.println("Name: " + professor.getName());
+            System.out.println("Gender: " + professor.getGender());
             System.out.println();
         }
     }
 
 
-    public void getAllStudents(){
+    public void getAllStudents() {
         List<Student> studentsList = new ArrayList<>();
         System.out.println("Student List:\n");
-        for(Student student: studentsList){
-            System.out.println("Student Id: "+student.getStudentId());
-            System.out.println("Name: "+student.getName());
-            System.out.println("Gender: "+student.getGender());
+        for (Student student : studentsList) {
+            System.out.println("Student Id: " + student.getStudentId());
+            System.out.println("Name: " + student.getName());
+            System.out.println("Gender: " + student.getGender());
             System.out.println("Branch: " + student.getBranch());
-            System.out.println("Semester: "+student.getSemester());
+            System.out.println("Semester: " + student.getSemester());
             System.out.println();
         }
     }
-
 
 
     /**

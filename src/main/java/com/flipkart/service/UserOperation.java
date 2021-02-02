@@ -7,7 +7,6 @@ import com.flipkart.dao.UserDaoImplement;
 import java.util.List;
 
 /**
- *
  * @author JEDI05
  */
 
@@ -74,7 +73,7 @@ public class UserOperation implements UserInterface {
      * @return List of Notifications
      */
     @Override
-    public List<Notification> showNotifications(String username){
+    public List<Notification> showNotifications(String username) {
         return userDaoImplement.showNotifications(username);
     }
 

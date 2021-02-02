@@ -74,12 +74,12 @@ public interface StudentInterface extends UserInterface {
 
     /**
      * Notifies for payment of course
+     *
      * @param totalFees of courses student has enrolled in
      */
     public void notifyPayment(int totalFees);
 
     /**
-     *
      * @return username as String
      */
     public String getStudentUsername();

@@ -38,11 +38,10 @@ public class ProfessorController {
     @Path("/course-catalog")
     @Produces(MediaType.APPLICATION_JSON)
     public Response viewCourses(@PathParam("professorId")
-                              @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
-                              @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
-                              @NotNull(message = "ProfessorID cannot be null")
-                              int professorId)
-    {
+                                @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
+                                @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
+                                @NotNull(message = "ProfessorID cannot be null")
+                                        int professorId) {
         ProfessorInterface professorOperation = new ProfessorOperation(professorId);
         List<Course> courseList = professorOperation.viewCourses();
         JSONArray jsonArray = new JSONArray();
@@ -67,11 +66,10 @@ public class ProfessorController {
     @Path("view-assigned-courses")
     @Produces(MediaType.APPLICATION_JSON)
     public Response viewAssignedCourses(@PathParam("professorId")
-                                      @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
-                                      @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
-                                      @NotNull(message = "ProfessorID cannot be null")
-                                              int professorId)
-    {
+                                        @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
+                                        @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
+                                        @NotNull(message = "ProfessorID cannot be null")
+                                                int professorId) {
         ProfessorInterface professorOperation = new ProfessorOperation(professorId);
         List<Course> assignedCourseList = professorOperation.viewAssignedCourses();
         JSONArray jsonArray = new JSONArray();
@@ -93,16 +91,15 @@ public class ProfessorController {
     @Path("view-student-in-course/{courseId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response viewStudents(@PathParam("professorId")
-                               @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
-                               @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
-                               @NotNull(message = "ProfessorID cannot be null")
-                                       int professorId,
-                               @PathParam("courseId")
-                               @DecimalMin(value = "101", message = "Course ID range starts from 101.")
-                               @DecimalMax(value = "199", message = "Course ID range till 199 only.")
-                               @NotNull(message = "CourseID cannot be null")
-                                       int courseId)
-    {
+                                 @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
+                                 @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
+                                 @NotNull(message = "ProfessorID cannot be null")
+                                         int professorId,
+                                 @PathParam("courseId")
+                                 @DecimalMin(value = "101", message = "Course ID range starts from 101.")
+                                 @DecimalMax(value = "199", message = "Course ID range till 199 only.")
+                                 @NotNull(message = "CourseID cannot be null")
+                                         int courseId) {
         ProfessorInterface professorOperation = new ProfessorOperation(professorId);
         List<Student> studentsInCourse = null;
         try {
@@ -111,8 +108,7 @@ public class ProfessorController {
             return Response.status(401).entity(e.getMessage()).build();
         }
         JSONArray jsonArray = new JSONArray();
-        for(Student student : studentsInCourse)
-        {
+        for (Student student : studentsInCourse) {
             JSONObject studentJson = new JSONObject();
             studentJson.put("Student Id", student.getStudentId());
             studentJson.put("Name", student.getName());
@@ -129,7 +125,7 @@ public class ProfessorController {
      * Post method used for selecting courses
      *
      * @param courseId unique identifier of course
-     * @param profId unique identifier of professor
+     * @param profId   unique identifier of professor
      * @return response object with status and json string with message
      * @throws RepeatException if course is already assigned to a Professor
      */
@@ -146,12 +142,12 @@ public class ProfessorController {
                                   @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                   @NotNull(message = "ProfessorID cannot be null")
                                           int profId) {
-        String result = "Saved "  + courseId + " to "+ profId;
+        String result = "Saved " + courseId + " to " + profId;
         ProfessorInterface professorOperation = new ProfessorOperation(profId);
         try {
             professorOperation.chooseCourse(courseId);
         } catch (RepeatException e) {
-            return  Response.status(400).entity(e.getMessage()).build();
+            return Response.status(400).entity(e.getMessage()).build();
         }
         return Response.status(201).entity(result).build();
     }
@@ -159,39 +155,38 @@ public class ProfessorController {
     /**
      * Post method used for assigning grades to student in particular course
      *
-     * @param courseId unique identifier of course
+     * @param courseId    unique identifier of course
      * @param professorId unique identifier of professor
-     * @param studentId unique identifier of student
-     * @param score score of student in a course
+     * @param studentId   unique identifier of student
+     * @param score       score of student in a course
      * @return response object with the status and json string with message
-     * @throws RepeatException if course is already graded
+     * @throws RepeatException             if course is already graded
      * @throws CourseNotAccesibleException if course is not accessible
-     * @throws StudentNotFoundException if student is not enrolled in particular course
+     * @throws StudentNotFoundException    if student is not enrolled in particular course
      */
     @POST
     @Path("/assign-grade")
     @Produces(MediaType.APPLICATION_JSON)
     public Response assignGrades(
-                                @PathParam("professorId")
-                                 @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
-                                 @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
-                                 @NotNull(message = "ProfessorID cannot be null")
-                                        int professorId,
-                                 @FormParam("courseId")
-                                 @DecimalMin(value = "101", message = "Course ID range starts from 101.")
-                                 @DecimalMax(value = "199", message = "Course ID range till 199 only.")
-                                 @NotNull(message = "CourseID cannot be null")
-                                        int courseId,
-                                 @FormParam("studentId")
-                                 @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
-                                 @DecimalMax(value = "399", message = "Students ID range till 399 only.")
-                                 @NotNull(message = "StudentID cannot be null")
-                                        int studentId,
-                                 @FormParam("score")
-                                 @NotNull(message = "score cannot be null")
-                                         String score)
-    {
-        String result = "Grade added for" + courseId + "for "+ studentId;
+            @PathParam("professorId")
+            @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
+            @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
+            @NotNull(message = "ProfessorID cannot be null")
+                    int professorId,
+            @FormParam("courseId")
+            @DecimalMin(value = "101", message = "Course ID range starts from 101.")
+            @DecimalMax(value = "199", message = "Course ID range till 199 only.")
+            @NotNull(message = "CourseID cannot be null")
+                    int courseId,
+            @FormParam("studentId")
+            @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
+            @DecimalMax(value = "399", message = "Students ID range till 399 only.")
+            @NotNull(message = "StudentID cannot be null")
+                    int studentId,
+            @FormParam("score")
+            @NotNull(message = "score cannot be null")
+                    String score) {
+        String result = "Grade added for" + courseId + "for " + studentId;
         ProfessorInterface professorOperation = new ProfessorOperation(professorId);
         char gradeLetter = score.charAt(0);
         Grade newGrade = new Grade(studentId, courseId, gradeLetter);
