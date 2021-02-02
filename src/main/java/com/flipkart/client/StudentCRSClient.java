@@ -71,6 +71,7 @@ public class StudentCRSClient {
                     break;
                 case 8:
                     showNotifications();
+                    break;
                 case 9:
                     return;
             }
@@ -99,12 +100,12 @@ public class StudentCRSClient {
     public void viewCourses() {
         List<Course> courses = studentOperation.viewCourses();
         for (Course course : courses) {
-            System.out.println(course.getName());
-            System.out.println(course.getCourseId());
-            System.out.println(course.getDepartment());
-            System.out.println(" ");
-            // TODO: Need to manage this error
-            // System.out.println(course.getProfessorId().getName());
+            System.out.println("Course ID: " + course.getCourseId());
+            System.out.println("Course Name: " + course.getName());
+            System.out.println("Department: "+ course.getDepartment());
+            System.out.println("Course Fees: "+ course.getFees());
+            System.out.println("Professor Id: "+ course.getProfessorId());
+            System.out.println();
         }
     }
 
@@ -161,8 +162,9 @@ public class StudentCRSClient {
         List<Grade> allGradeOfStudents = studentOperation.viewReportCard();
 
         for (Grade grade : allGradeOfStudents) {
-            System.out.println("courseId: " + grade.getCourseId());
-            System.out.println("grade:" + grade.getGradeLetter());
+            System.out.println("Course Id: " + grade.getCourseId());
+            System.out.println("Grade:" + grade.getGradeLetter());
+            System.out.println();
         }
 
     }
@@ -171,11 +173,11 @@ public class StudentCRSClient {
      * Displays all the requested courses of a student
      */
     public void viewRequestedCourses() {
-        List<RequestedCourse> allRequestedCourse = studentOperation.viewRequestedCourses();
-        for (RequestedCourse requestedCourse : allRequestedCourse) {
-            System.out.println(requestedCourse.getCourseId());
-            System.out.println(requestedCourse.isPrimary());
-            System.out.println(" ");
+        List<RequestedCourse> requestedCourseList = studentOperation.viewRequestedCourses();
+        for (RequestedCourse requestedCourse : requestedCourseList) {
+            System.out.println("Course Id: " + requestedCourse.getCourseId());
+            System.out.println(requestedCourse.isPrimary() ? "Primary Choice" : "Secondary Choice");
+            System.out.println();
         }
     }
 
@@ -186,9 +188,10 @@ public class StudentCRSClient {
         List<Course> allAssignedCourse = studentOperation.viewAssignedCourses();
 
         for (Course course : allAssignedCourse) {
-            System.out.println(course.getName());
-            System.out.println(course.getDepartment());
-            System.out.println(course.getCourseId());
+            System.out.println("Course Id: "+course.getCourseId());
+            System.out.println("Course Name: "+ course.getName());
+            System.out.println("Department: " + course.getDepartment());
+            System.out.println("Fees: "+ course.getFees());
             System.out.println(" ");
         }
     }

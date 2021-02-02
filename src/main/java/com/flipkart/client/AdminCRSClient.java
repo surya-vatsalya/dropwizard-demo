@@ -109,6 +109,10 @@ public class AdminCRSClient {
         for (Course course : courseList) {
             System.out.println("Course ID: " + course.getCourseId());
             System.out.println("Course Name: " + course.getName());
+            System.out.println("Department: "+ course.getDepartment());
+            System.out.println("Course Fees: "+ course.getFees());
+            System.out.println("Professor Id: "+ course.getProfessorId());
+            System.out.println();
         }
     }
 
@@ -180,7 +184,7 @@ public class AdminCRSClient {
      * Uses Professor username to drop him/her
      */
     void dropProfessor() {
-        System.out.println(StatementConstants.PName);
+        System.out.println(StatementConstants.Uname);
         String username = sc.nextLine();
         adminOperation.dropProfessor(username);
     }
@@ -205,21 +209,20 @@ public class AdminCRSClient {
 
 
     public void getAllCourseRequests() {
-        List<RequestedCourse> requestedCourseList = new ArrayList<>();
+        List<RequestedCourse> requestedCourseList = adminOperation.getAllRequestedCourses();
         System.out.println("All Course Requests : ");
-        int count = 1;
+
         for (RequestedCourse requestedCourse : requestedCourseList) {
-            System.out.println(count + ".");
             System.out.println("Student Id: " + requestedCourse.getStudentId());
-            System.out.println("Course Id" + requestedCourse.getCourseId());
+            System.out.println("Course Id: " + requestedCourse.getCourseId());
             System.out.println(requestedCourse.isPrimary() ? "Primary Choice" : "Secondary Choice");
-            count++;
+            System.out.println();
         }
     }
 
 
     public void getAllProfessors() {
-        List<Professor> professorList = new ArrayList<>();
+        List<Professor> professorList = adminOperation.getAllProfessors();
         System.out.println("Professor List:\n");
         for (Professor professor : professorList) {
             System.out.println("Professor Id: " + professor.getProfessorId());
@@ -231,7 +234,7 @@ public class AdminCRSClient {
 
 
     public void getAllStudents() {
-        List<Student> studentsList = new ArrayList<>();
+        List<Student> studentsList = adminOperation.getAllStudents();
         System.out.println("Student List:\n");
         for (Student student : studentsList) {
             System.out.println("Student Id: " + student.getStudentId());

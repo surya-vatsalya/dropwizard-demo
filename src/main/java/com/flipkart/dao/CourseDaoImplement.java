@@ -391,7 +391,6 @@ public class CourseDaoImplement {
 
                 RequestedCourse requestedCourse = new RequestedCourse(courseId, studentId, courseFlag == 1);
                 //Course course = new Course(rs.getString(2),courseId,rs1.getInt(1),rs.getString(3),rs.getInt(4));
-                System.out.println(requestedCourse.getCourseId());
                 requestedCoursesList.add(requestedCourse);
             }
         } catch (SQLException ex) {

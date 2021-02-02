@@ -64,6 +64,9 @@ public class ProfessorCRSClient {
                     showNotifications();
                     break;
                 case 6:
+                    chooseCourse();
+                    break;
+                case 7:
                     return;
             }
         } while (true);
@@ -80,7 +83,8 @@ public class ProfessorCRSClient {
         System.out.println(StatementConstants.ViewStudents);
         System.out.println(StatementConstants.AssignGrades);
         System.out.println("5. " + StatementConstants.showNotification);
-        System.out.println("6. Logout");
+        System.out.println("6. choose course");
+        System.out.println("7. Logout");
     }
 
     /**
@@ -89,9 +93,12 @@ public class ProfessorCRSClient {
     public void viewCourses() {
         List<Course> courses = professorOperation.viewCourses();
         for (Course course : courses) {
-            System.out.println(course.getCourseId());
-            System.out.println(course.getName());
-            System.out.println(course.getDepartment());
+            System.out.println("Course ID: " + course.getCourseId());
+            System.out.println("Course Name: " + course.getName());
+            System.out.println("Department: "+ course.getDepartment());
+            System.out.println("Course Fees: "+ course.getFees());
+            System.out.println("Professor Id: "+ course.getProfessorId());
+            System.out.println();
         }
     }
 
@@ -103,6 +110,10 @@ public class ProfessorCRSClient {
         for (Course course : assignedCourseList) {
             System.out.println("Course ID: " + course.getCourseId());
             System.out.println("Course Name: " + course.getName());
+            System.out.println("Department: "+ course.getDepartment());
+            System.out.println("Course Fees: "+ course.getFees());
+            System.out.println();
+
         }
     }
 

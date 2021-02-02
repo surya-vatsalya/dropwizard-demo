@@ -48,10 +48,10 @@ public class StatementConstants {
     public static final String AddProfessor = "5. Add Professor to the University";
     public static final String RemoveProfessor = "6. Remove an existing professor";
     public static final String ViewStudentsInCourse = "7. View Students in course";
-    public static final String Logout = "9. Logout";
+    public static final String Logout = "12. Logout";
 
     public static final String PId = "Enter Professor Id: ";
-    public static final String PName = "Enter Professor Username: ";
+    public static final String PName = "Enter Professor Name: ";
     public static final String PGender = "Enter professor Gender - M for Male and F for Female";
     public static final String CId = "Enter course Id: ";
     public static final String Cname = "Enter course Name: ";
