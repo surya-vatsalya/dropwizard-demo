@@ -6,6 +6,7 @@ import com.flipkart.constant.StatementConstants;
 import com.flipkart.util.DBUtils;
 import org.apache.log4j.Logger;
 
+import javax.sound.midi.SysexMessage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -398,8 +399,33 @@ public class CourseDaoImplement {
         } catch (SQLException ex) {
             ex.getMessage();
         }
-        System.out.println(requestedCoursesList.size());
+        //System.out.println(requestedCoursesList.size());
         return requestedCoursesList;
     }
+
+
+    public List<RequestedCourse> getAllRequestedCourses(){
+        PreparedStatement stmt = null;
+        List<RequestedCourse> requestedCourseList = new ArrayList<>();
+        try{
+            stmt = conn.prepareStatement("Select * from requestedcourses");
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                int courseId = rs.getInt(1);
+                int studentId = rs.getInt(2);
+                int courseFlag = rs.getInt(3);
+                RequestedCourse requestedCourse = new RequestedCourse(courseId, studentId, courseFlag == 1);
+                System.out.println(requestedCourse.getCourseId());
+                requestedCourseList.add(requestedCourse);
+            }
+        } catch (SQLException se){
+            System.out.println(se.getMessage());
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return requestedCourseList;
+    }
+
+
 }
 

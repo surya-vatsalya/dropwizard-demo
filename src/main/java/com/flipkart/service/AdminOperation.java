@@ -2,6 +2,7 @@ package com.flipkart.service;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.RequestedCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.constant.StatementConstants;
 import com.flipkart.dao.AdminDaoImplement;
@@ -10,6 +11,7 @@ import com.flipkart.exception.LimitExceededException;
 import com.flipkart.exception.RepeatException;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -140,4 +142,17 @@ public class AdminOperation extends UserOperation implements AdminInterface {
     public String getAdminUsername(){
         return adminDaoImplement.getAdminUsername(this.adminId);
     }
+
+
+    /**
+     * Returns list of all requested courses
+     *
+     * @return
+     */
+    public List<RequestedCourse> getAllRequestedCourses(){
+        return courseDaoImplement.getAllRequestedCourses();
+    }
+
+
+
 }
