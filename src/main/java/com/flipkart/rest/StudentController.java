@@ -247,4 +247,44 @@ public class StudentController {
         return Response.status(200).entity(jsonArray.toJSONString()).build();
     }
 
+
+    /**
+     *  Method to register student
+     * @param studentId
+     * @param name
+     * @param gender
+     * @param semester
+     * @param branch
+     * @param username
+     * @param password
+     * @return
+     */
+    @POST
+    @Path("/register-student")
+    public Response addStudent(
+            @DecimalMin(value = "301", message = "Course ID range starts from 301.")
+            @DecimalMax(value = "399", message = "Course ID range till 399 only.")
+            @NotNull(message = "StudentID cannot be null")
+            @FormParam("studentId") int studentId,
+            @NotNull(message = "Name cannot be null")
+            @Size(min = 3, max = 25, message = "Name should be between 3 and 25")
+            @FormParam("name") String name,
+            @NotNull(message = "Gender cannot be null")
+            @FormParam("gender") String gender,
+            @NotNull(message = "Semester cannot be null")
+            @FormParam("semester") int semester,
+            @NotNull(message = "Semester cannot be null")
+            @FormParam("branch") String branch,
+            @NotNull(message = "Username cannot be null")
+            @FormParam("username") String username,
+            @NotNull(message = "Password cannot be null")
+            @FormParam("password") String password) {
+        String res = "";
+        Student student = new Student(name, studentId, gender, branch, semester);
+        UserInterface userOperation = new UserOperation();
+        Boolean studentRegistered = userOperation.registerStudent(student, username, password);
+        res = studentRegistered ? "Student was Registered sucessfully!": "Student not registered, please try again later";
+        return Response.status(201).entity(res).build();
+    }
+
 }
