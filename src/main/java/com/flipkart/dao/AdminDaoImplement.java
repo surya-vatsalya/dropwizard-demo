@@ -3,6 +3,7 @@ package com.flipkart.dao;
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.Student;
 import com.flipkart.constant.SQLQueries;
 import com.flipkart.constant.StatementConstants;
 import com.flipkart.service.UserInterface;
@@ -14,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author JEDI05

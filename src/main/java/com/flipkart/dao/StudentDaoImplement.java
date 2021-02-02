@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author JEDI05
@@ -92,6 +94,36 @@ public class StudentDaoImplement implements StudentDaoInterface {
 
         return username;
     }
+
+
+    /**
+     * Returns List of all students from database
+     *
+     * @return
+     */
+    public List<Student> getAllStudents(){
+        PreparedStatement stmt = null;
+        List<Student> studentList = new ArrayList<>();
+        try{
+            stmt = conn.prepareStatement("SELECT * from studentdetails");
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                int studentId = rs.getInt(2);
+                String name = rs.getString(3);
+                String gender = rs.getString(4);
+                String branch = rs.getString(5);
+                int semester = rs.getInt(6);
+                Student student = new Student(name, studentId, gender, branch, semester);
+                studentList.add(student);
+            }
+        } catch (SQLException se) {
+            logger.error(se.getMessage());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return studentList;
+    }
+
 
     public void notifyPayment(String username, int totalFees) {
         PreparedStatement stmtNotify = null;

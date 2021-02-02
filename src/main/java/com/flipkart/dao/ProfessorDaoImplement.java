@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author JEDI05
@@ -97,5 +99,30 @@ public class ProfessorDaoImplement implements ProfessorDaoInterface {
         return username;
     }
 
+    /**
+     * Returns list of all professors from database
+     *
+     * @return
+     */
+    public List<Professor> getAllProfessors(){
+        PreparedStatement stmt = null;
+        List<Professor> professorList = new ArrayList<>();
+        try{
+            stmt = conn.prepareStatement("SELECT * from professordetails");
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                int professorId = rs.getInt(2);
+                String name = rs.getString(3);
+                String gender = rs.getString(4);
+                Professor professor = new Professor(name, professorId, gender);
+                professorList.add(professor);
+            }
+        } catch (SQLException se) {
+            logger.error(se.getMessage());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return professorList;
+    }
 
 }

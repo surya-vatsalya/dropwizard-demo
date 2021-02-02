@@ -7,6 +7,8 @@ import com.flipkart.bean.Student;
 import com.flipkart.constant.StatementConstants;
 import com.flipkart.dao.AdminDaoImplement;
 import com.flipkart.dao.CourseDaoImplement;
+import com.flipkart.dao.ProfessorDaoImplement;
+import com.flipkart.dao.StudentDaoImplement;
 import com.flipkart.exception.LimitExceededException;
 import com.flipkart.exception.RepeatException;
 import org.apache.log4j.Logger;
@@ -26,6 +28,8 @@ public class AdminOperation extends UserOperation implements AdminInterface {
     private static Logger logger = Logger.getLogger(AdminOperation.class);
     private int adminId;
     private AdminDaoImplement adminDaoImplement = AdminDaoImplement.getInstance();
+    private ProfessorDaoImplement professorDaoImplement = ProfessorDaoImplement.getInstance();
+    private StudentDaoImplement studentDaoImplement = StudentDaoImplement.getInstance();
     private CourseDaoImplement courseDaoImplement = CourseDaoImplement.getInstance();
 
     public AdminOperation(int adminId) {
@@ -153,6 +157,24 @@ public class AdminOperation extends UserOperation implements AdminInterface {
         return courseDaoImplement.getAllRequestedCourses();
     }
 
+    /**
+     * Returns list of all Professors
+     *
+     * @return
+     */
+    public List<Professor> viewAllProfessors(){
+        return professorDaoImplement.getAllProfessors();
+    }
+
+
+    /**
+     * Return list of all Professors
+     *
+     * @return
+     */
+    public List<Student> getAllStudents(){
+        return studentDaoImplement.getAllStudents();
+    }
 
 
 }
