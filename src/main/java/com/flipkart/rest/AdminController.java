@@ -1,9 +1,6 @@
 package com.flipkart.rest;
 
-import com.flipkart.bean.Course;
-import com.flipkart.bean.Notification;
-import com.flipkart.bean.Professor;
-import com.flipkart.bean.Student;
+import com.flipkart.bean.*;
 import com.flipkart.exception.LimitExceededException;
 import com.flipkart.exception.RepeatException;
 import com.flipkart.service.AdminInterface;
@@ -13,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.print.attribute.standard.Media;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -233,7 +231,27 @@ public class AdminController {
 
     /**
      *
-     * @return response object with the status and json string of professor objects
+     * @return response object with the status and json string of RequestedCourse objects
+     */
+    @GET
+    @Path("/get-all-course-requests")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllCourseRequests(){
+        List<RequestedCourse> requestedCourseList = adminOperation.getAllRequestedCourses();
+        JSONArray jsonArray = new JSONArray();
+        for(RequestedCourse requestedCourse: requestedCourseList){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("studentId", requestedCourse.getStudentId());
+            jsonObject.put("courseId", requestedCourse.getCourseId());
+            jsonObject.put("isPrimary", requestedCourse.isPrimary());
+            jsonArray.add(jsonObject);
+        }
+        return Response.status(200).entity(jsonArray).build();
+    }
+
+    /**
+     *
+     * @return response object with the status and json string of Professor objects
      */
     @GET
     @Path("/get-all-professors")
@@ -253,7 +271,7 @@ public class AdminController {
 
     /**
      *
-     * @return response object with the status and json string of student objects
+     * @return response object with the status and json string of Student objects
      */
     @GET
     @Path("/get-all-students")
