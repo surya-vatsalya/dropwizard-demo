@@ -153,6 +153,7 @@ public class AdminOperation extends UserOperation implements AdminInterface {
      *
      * @return
      */
+    @Override
     public List<RequestedCourse> getAllRequestedCourses(){
         return courseDaoImplement.getAllRequestedCourses();
     }
@@ -162,7 +163,8 @@ public class AdminOperation extends UserOperation implements AdminInterface {
      *
      * @return
      */
-    public List<Professor> viewAllProfessors(){
+    @Override
+    public List<Professor> getAllProfessors(){
         return professorDaoImplement.getAllProfessors();
     }
 
@@ -172,6 +174,7 @@ public class AdminOperation extends UserOperation implements AdminInterface {
      *
      * @return
      */
+    @Override
     public List<Student> getAllStudents(){
         return studentDaoImplement.getAllStudents();
     }

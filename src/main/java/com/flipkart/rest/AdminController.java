@@ -230,6 +230,50 @@ public class AdminController {
         return Response.status(201).entity(res).build();
     }
 
+
+    /**
+     *
+     * @return response object with the status and json string of professor objects
+     */
+    @GET
+    @Path("/get-all-professors")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllProfessors(){
+        List<Professor> professorList = adminOperation.getAllProfessors();
+        JSONArray jsonArray = new JSONArray();
+        for(Professor professor: professorList){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID", professor.getProfessorId());
+            jsonObject.put("Name", professor.getName());
+            jsonObject.put("Gender", professor.getGender());
+            jsonArray.add(jsonObject);
+        }
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
+    }
+
+    /**
+     *
+     * @return response object with the status and json string of student objects
+     */
+    @GET
+    @Path("/get-all-students")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllStudents(){
+        List<Student> studentList = adminOperation.getAllStudents();
+        JSONArray jsonArray = new JSONArray();
+        for(Student student: studentList){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ID", student.getStudentId());
+            jsonObject.put("Name", student.getName());
+            jsonObject.put("Gender", student.getGender());
+            jsonObject.put("Branch", student.getBranch());
+            jsonObject.put("Semester", student.getSemester());
+            jsonArray.add(jsonObject);
+        }
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
+    }
+
+
     /**
      * Get method that sends notification to a particular user
      *

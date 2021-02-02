@@ -2,6 +2,7 @@ package com.flipkart.service;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.RequestedCourse;
 import com.flipkart.bean.Student;
 import com.flipkart.exception.LimitExceededException;
 import com.flipkart.exception.RepeatException;
@@ -84,4 +85,10 @@ public interface AdminInterface extends UserInterface {
      * @return username of Admin
      */
     public String getAdminUsername();
+
+    public List<RequestedCourse> getAllRequestedCourses();
+
+    public List<Professor> getAllProfessors();
+
+    public List<Student> getAllStudents();
 }
