@@ -37,7 +37,7 @@ public class ProfessorController {
     @GET
     @Path("/course-catalog")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewCourses(@PathParam("professorId")
+    public Response viewCourses(@PathParam("professorId")
                               @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                               @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                               @NotNull(message = "ProfessorID cannot be null")
@@ -55,7 +55,7 @@ public class ProfessorController {
             jsonArray.add(courseJson);
         }
 
-        return jsonArray.toJSONString();
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
     }
 
     /**
@@ -66,7 +66,7 @@ public class ProfessorController {
     @GET
     @Path("view-assigned-courses")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewAssignedCourses(@PathParam("professorId")
+    public Response viewAssignedCourses(@PathParam("professorId")
                                       @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                       @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                       @NotNull(message = "ProfessorID cannot be null")
@@ -81,7 +81,7 @@ public class ProfessorController {
             courseJson.put("Course Name", course.getName());
             jsonArray.add(courseJson);
         }
-        return jsonArray.toJSONString();
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
     }
 
     /**
@@ -92,7 +92,7 @@ public class ProfessorController {
     @GET
     @Path("view-student-in-course/{courseId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewStudents(@PathParam("professorId")
+    public Response viewStudents(@PathParam("professorId")
                                @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                @NotNull(message = "ProfessorID cannot be null")
@@ -108,7 +108,7 @@ public class ProfessorController {
         try {
             studentsInCourse = professorOperation.viewStudents(courseId);
         } catch (CourseNotAccesibleException e) {
-            return "Course Not Accessible";
+            return Response.status(401).entity(e.getMessage()).build();
         }
         JSONArray jsonArray = new JSONArray();
         for(Student student : studentsInCourse)
@@ -121,7 +121,8 @@ public class ProfessorController {
             studentJson.put("Branch", student.getBranch());
             jsonArray.add(studentJson);
         }
-        return jsonArray.toJSONString();
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
+
     }
 
     /**
@@ -144,10 +145,14 @@ public class ProfessorController {
                                   @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                   @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                   @NotNull(message = "ProfessorID cannot be null")
-                                          int profId) throws RepeatException {
+                                          int profId) {
         String result = "Saved "  + courseId + " to "+ profId;
         ProfessorInterface professorOperation = new ProfessorOperation(profId);
-        professorOperation.chooseCourse(courseId);
+        try {
+            professorOperation.chooseCourse(courseId);
+        } catch (RepeatException e) {
+            return  Response.status(400).entity(e.getMessage()).build();
+        }
         return Response.status(201).entity(result).build();
     }
 
@@ -171,26 +176,34 @@ public class ProfessorController {
                                  @DecimalMin(value = "201", message = "Professor ID range starts from 201.")
                                  @DecimalMax(value = "299", message = "Professor ID range till 299 only.")
                                  @NotNull(message = "ProfessorID cannot be null")
-                                 int professorId,
+                                        int professorId,
                                  @FormParam("courseId")
                                  @DecimalMin(value = "101", message = "Course ID range starts from 101.")
                                  @DecimalMax(value = "199", message = "Course ID range till 199 only.")
                                  @NotNull(message = "CourseID cannot be null")
-                                 int courseId,
+                                        int courseId,
                                  @FormParam("studentId")
                                  @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
                                  @DecimalMax(value = "399", message = "Students ID range till 399 only.")
                                  @NotNull(message = "StudentID cannot be null")
-                                 int studentId,
+                                        int studentId,
                                  @FormParam("score")
                                  @NotNull(message = "score cannot be null")
                                          String score)
-            throws RepeatException,CourseNotAccesibleException, StudentNotFoundException {
+    {
         String result = "Grade added for" + courseId + "for "+ studentId;
         ProfessorInterface professorOperation = new ProfessorOperation(professorId);
         char gradeLetter = score.charAt(0);
         Grade newGrade = new Grade(studentId, courseId, gradeLetter);
-        professorOperation.assignGrades(newGrade);
+        try {
+            professorOperation.assignGrades(newGrade);
+        } catch (CourseNotAccesibleException e) {
+            return Response.status(401).entity(e.getMessage()).build();
+        } catch (StudentNotFoundException e) {
+            return Response.status(404).entity(e.getMessage()).build();
+        } catch (RepeatException e) {
+            return Response.status((400)).entity(e.getMessage()).build();
+        }
         return Response.status(201).entity(result).build();
     }
 

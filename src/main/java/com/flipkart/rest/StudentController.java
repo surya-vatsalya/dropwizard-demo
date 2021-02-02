@@ -41,7 +41,7 @@ public class StudentController {
     @GET
     @Path("/course-catalog")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewCourses(
+    public Response viewCourses(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
@@ -59,7 +59,7 @@ public class StudentController {
             courseJson.put("Course Fees", course.getFees());
             jsonArray.add(courseJson);
         }
-        return jsonArray.toJSONString();
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
     }
 
 
@@ -72,7 +72,7 @@ public class StudentController {
     @GET
     @Path("/view-registered-courses")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getRegisteredCourses(
+    public Response getRegisteredCourses(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
@@ -86,7 +86,7 @@ public class StudentController {
             courseJson.put("Course Name", course.getName());
             jsonArray.add(courseJson);
         }
-        return jsonArray.toJSONString();
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
     }
 
     /**
@@ -98,7 +98,7 @@ public class StudentController {
     @GET
     @Path("/view-requested-courses")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getRequestedCourses(
+    public Response getRequestedCourses(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
@@ -112,7 +112,7 @@ public class StudentController {
             courseJson.put("isPrimary", course.isPrimary());
             jsonArray.add(courseJson);
         }
-        return jsonArray.toJSONString();
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
     }
 
 
@@ -125,7 +125,7 @@ public class StudentController {
     @GET
     @Path("view-report-card")
     @Produces(MediaType.APPLICATION_JSON)
-    public String viewReportCard(
+    public Response viewReportCard(
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Student's ID range till 399 only.")
             @NotNull(message = "Student ID cannot be null")
@@ -139,7 +139,7 @@ public class StudentController {
             gradeJson.put("Grade Letter", grade.getGradeLetter());
             jsonArray.add(gradeJson);
         }
-        return jsonArray.toJSONString();
+        return Response.status(200).entity(jsonArray.toJSONString()).build();
     }
 
     /**
@@ -166,10 +166,14 @@ public class StudentController {
             @NotNull(message = "CourseID cannot be null")
             @FormParam("courseId") int courseId,
             @NotNull(message = "isTrue flag cannot be null")
-            @FormParam("isPrimary") int isPrimary) throws ValidationException, RepeatException, LimitExceededException {
+            @FormParam("isPrimary") int isPrimary) throws ValidationException {
         String result = "Saved "  + courseId + "to "+ studentId;
         StudentInterface studentOperation = new StudentOperation(studentId);
-        studentOperation.chooseCourse(courseId, isPrimary > 0? true:false);
+        try {
+            studentOperation.chooseCourse(courseId, isPrimary > 0? true:false);
+        } catch (RepeatException | LimitExceededException e) {
+            return Response.status(400).entity(e.getMessage()).build();
+        }
         return Response.status(201).entity(result).build();
     }
 
@@ -188,7 +192,8 @@ public class StudentController {
             @DecimalMin(value = "301", message = "Student's ID range starts from 300.")
             @DecimalMax(value = "399", message = "Students ID range till 399 only.")
             @NotNull(message = "StudentID cannot be null")
-            @FormParam("studentId") int studentId) throws RepeatException, LimitExceededException {
+            @FormParam("studentId") int studentId)
+    {
         StudentInterface studentOperation = new StudentOperation(studentId);
         int totalFees = studentOperation.getFees();
         String result = "Fees for Student ID " + studentId + " recorded amounting total " + totalFees;
@@ -233,7 +238,8 @@ public class StudentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response showNotifications(
             @NotNull(message = "Username cannot be null")
-            @QueryParam("username") String username) {
+            @QueryParam("username") String username)
+    {
         System.out.println(username);
         UserInterface userOperation = new UserOperation();
         List<Notification> notificationList = userOperation.showNotifications(username);
