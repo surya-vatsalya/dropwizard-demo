@@ -3,6 +3,7 @@
 /out/
 /*.iml
 contacts.log
+pom.xml
 /target
 /src/main/resources/log4j.properties
 /src/main/resources/config.properties
